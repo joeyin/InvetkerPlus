@@ -1,0 +1,30 @@
+﻿#intro #cover {
+    background-image: url(../Images/intro.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    color: var(--secondary);
+    letter-spacing: 2px;
+    width: 614px;
+    height: 504px;
+    margin: 0 auto;
+}
+
+#start #cover {
+    width: 627px;
+    height: 627px;
+    background-image: url(../Images/start.svg);
+    background-repeat: no-repeat;
+}
+
+.highlight {
+    background-color: rgba(245, 197, 78, 0.58);
+    padding: 74px 54px;
+    color: var(--secondary);
+    font-size: 50px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+}

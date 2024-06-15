@@ -1,0 +1,24 @@
+﻿<div id="user-modal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="user-modal" aria-hidden="true">
+    <div class="modal-dialog with-nav-tab">
+        <div class="modal-content">
+            <ul class="nav nav-tabs px-4" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#sign-in" type="button" role="tab"
+                            aria-controls="sign-in" aria-selected="true">
+                        SIGN IN
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#sign-up" type="button" role="tab"
+                            aria-controls="sign-up" aria-selected="false">
+                        SIGN UP
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                @Html.Partial("./UserModel/Login")
+                @Html.Partial("./UserModel/Register")
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,5 +34,6 @@ namespace Invetker.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

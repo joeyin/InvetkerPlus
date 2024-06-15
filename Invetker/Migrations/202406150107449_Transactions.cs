@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class transcation : DbMigration
+    public partial class Transactions : DbMigration
     {
         public override void Up()
         {
@@ -35,7 +35,7 @@
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserId = c.String(nullable: false, maxLength: 128),
+                        UserId = c.String(maxLength: 128),
                         Ticker = c.String(nullable: false),
                         Quantity = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Action = c.Int(nullable: false),
@@ -46,7 +46,7 @@
                         CreatedAt = c.DateTime(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
                 .Index(t => t.UserId);
             
             CreateTable(

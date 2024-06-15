@@ -1,0 +1,124 @@
+﻿header {
+  height: 68px;
+  border-bottom: 1px solid rgba(234, 234, 234, 1);;
+  background-color: rgba(243, 243, 243, 1);
+}
+
+header #layout-sider-btn {
+  width: 67px;
+}
+
+header .brand {
+  width: var(--layout-sider-width);
+  height: 100%;
+  background-size: auto;
+  background-color: rgb(var(--bs-warning-rgb));
+  transition: all .2s;
+  overflow: hidden;
+}
+
+header .dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+header .dropdown #account #name {
+  color: rgb(var(--bs-warning-rgb));
+  font-weight: 800;
+}
+
+header .dropdown #account #role {
+  color: rgb(var(--gray500));
+  font-weight: 400;
+  font-size: .75rem;
+}
+
+header .dropdown img {
+  width: 37px;
+  height: 37px;
+  border: 2px solid rgb(var(--bs-warning-rgb));
+}
+
+#container {
+  padding-top: 68px;
+  height: 100%;
+  background-color: rgba(243, 243, 243, 1);
+}
+
+#container aside {
+  width: var(--layout-sider-width);
+  min-width: var(--layout-sider-width);
+  max-width: var(--layout-sider-width);
+  background-color: rgb(var(--light));
+  border-right: 1px solid rgba(234, 234, 234, 1);
+  transition: all .2s;
+  position: fixed;
+  padding-top: 68px;
+  top: 0;
+  overflow: auto;
+  height: 100vh;
+}
+
+#container aside .nav li {
+  margin: 10px 6px 0;
+}
+
+#container aside .nav li span {
+  min-width: 95px;
+  margin-left: 20px;
+}
+
+#container aside .nav li a {
+  color: rgb(var(--gray700));
+  height: 45px;
+}
+
+#container aside .nav li a:hover {
+  color: rgb(var(--light));
+}
+
+#container aside .nav li a.active,
+#container aside .nav-link:focus,
+#container aside .nav-link:hover {
+    background-color: rgb(var(--bs-warning-rgb));
+    color: rgb(var(--light));
+}
+
+#container aside .nav li a.active svg path#transcations,
+#container aside .nav li a:hover svg path#transcations {
+  stroke: rgb(var(--light));
+}
+
+#container aside .nav li a.active svg path#home,
+#container aside .nav li a:hover svg path#home,
+#container aside .nav li a.active svg path#settings,
+#container aside .nav li a:hover svg path#settings {
+  fill: rgb(var(--light));
+}
+
+#container #content {
+  padding-left: var(--layout-sider-width);
+}
+
+#container #content main {
+  min-height: 100vh;
+}
+
+body.slider-collapsed #container aside .nav li span {
+  display: none;
+}
+
+body.slider-collapsed header .brand,
+body.slider-collapsed #container aside {
+  width: var(--layout-sider-collasped-width);
+  min-width: var(--layout-sider-collasped-width);
+  max-width: var(--layout-sider-collasped-width);
+}
+
+body.slider-collapsed #container #content {
+  padding-left: var(--layout-sider-collasped-width);
+}
+
+body.slider-collapsed header .brand {
+  background-size: 168px;
+  background-position: 15px;
+}

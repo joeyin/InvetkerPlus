@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Invetker.Models
@@ -14,10 +15,10 @@ namespace Invetker.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public virtual ApplicationUser AspNetUsers { get; set; }
-        [ForeignKey("AspNetUsers")]
+        [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
+        public virtual ApplicationUser ApplicationUser { get; set; }
+
 
         // Total user deposit
         public decimal TotalDeposit { get; set; }

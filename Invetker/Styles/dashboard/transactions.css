@@ -1,0 +1,28 @@
+﻿.card-wrap {
+    border-radius: 6px;
+    border-top: 4px solid rgb(var(--bs-warning-rgb));
+    box-shadow: 0px 3px 4px 0px rgba(0, 0, 0, 0.07);
+    padding: 0;
+    height: 100%;
+}
+
+.card-wrap > .title {
+    color: rgb(var(--bs-warning-rgb));
+    font-weight: 700;
+    padding: 17px 20px;
+    border: 1px solid rgb(var(--gray150));
+}
+
+.card-wrap table {
+    font-size: 12px;
+}
+
+.card-wrap table th,
+.card-wrap table td {
+    padding: 15px 20px !important;
+}
+
+#daterangepicker,
+#ticker {
+    width: 300px;
+}

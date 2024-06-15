@@ -7,13 +7,13 @@ namespace Invetker.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class transcation : IMigrationMetadata
+    public sealed partial class Transactions : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(transcation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Transactions));
         
         string IMigrationMetadata.Id
         {
-            get { return "202406141538112_transcation"; }
+            get { return "202406150107449_Transactions"; }
         }
         
         string IMigrationMetadata.Source

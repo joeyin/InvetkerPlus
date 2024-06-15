@@ -7,13 +7,13 @@ namespace Invetker.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class performance : IMigrationMetadata
+    public sealed partial class Performances : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(performance));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Performances));
         
         string IMigrationMetadata.Id
         {
-            get { return "202406141545583_performance"; }
+            get { return "202406150108290_Performances"; }
         }
         
         string IMigrationMetadata.Source
