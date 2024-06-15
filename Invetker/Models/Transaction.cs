@@ -69,6 +69,12 @@ namespace Invetker.Models
 
     }
 
+    public class TransactionEditViewModel : TransactionAddViewModel
+    {
+        [Key]
+        public int Id { get; set; }
+    }
+
     public enum ActionType
     {
         Bought,

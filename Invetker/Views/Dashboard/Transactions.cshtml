@@ -24,8 +24,9 @@
     </ol>
 </nav>
 
-<!-- Transaction Model -->
-@Html.Partial("./TransactionModel")
+<!-- Transaction Modal -->
+@Html.Partial("./Transactions/Add")
+@Html.Partial("./Transactions/Edit")
 
 <main class="px-4 pb-4 flex-grow-1 d-flex flex-column">
     <form name="search" class="row mb-4 align-items-center">
@@ -71,12 +72,13 @@
                         <th scope="col">Fee</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Date Time</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (Transaction transaction in ViewData["Transactions"] as List<Invetker.Models.Transaction>)
                     {
-                        <tr>
+                        <tr class="align-middle">
                             <td>@transaction.Ticker</td>
                             <td>@transaction.Action</td>
                             <td>@transaction.Quantity.ToString("n3")</td>
@@ -84,6 +86,19 @@
                             <td>@transaction.Fee.ToString("n3")</td>
                             <td>@(((@transaction.Price * @transaction.Quantity) + @transaction.Fee).ToString("n3"))</td>
                             <td>@transaction.Datetime</td>
+                            <td>
+                                <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-edit text-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
+                                        <path fill="currentColor" d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z" />
+                                        <path fill="currentColor" d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z" />
+                                    </svg>
+                                </button>
+                                <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-delete text-secondary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 2048 2048">
+                                        <path fill="currentColor" d="M1792 384h-128v1472q0 40-15 75t-41 61t-61 41t-75 15H448q-40 0-75-15t-61-41t-41-61t-15-75V384H128V256h512V128q0-27 10-50t27-40t41-28t50-10h384q27 0 50 10t40 27t28 41t10 50v128h512zM768 256h384V128H768zm768 128H384v1472q0 26 19 45t45 19h1024q26 0 45-19t19-45zM768 1664H640V640h128zm256 0H896V640h128zm256 0h-128V640h128z" />
+                                    </svg>
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>

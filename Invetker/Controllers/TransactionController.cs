@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Security;
@@ -28,11 +29,11 @@ namespace Invetker.Controllers
         /// CONTENT: all transactions in the database.
         /// </returns>
         /// <example>
-        /// GET: api/transactions
+        /// GET: api/Transaction/list
         /// </example>
         [HttpGet]
         [ResponseType(typeof(Transaction))]
-        public IHttpActionResult Index()
+        public IHttpActionResult List()
         {
             string userId = User.Identity.GetUserId();
 
@@ -41,6 +42,7 @@ namespace Invetker.Controllers
 
             Transactions.ForEach(t => TransactionDtos.Add(new Transaction()
             {
+                Id = t.Id,
                 Ticker = t.Ticker,
                 Quantity = t.Quantity,
                 Action = t.Action,
@@ -55,7 +57,7 @@ namespace Invetker.Controllers
         }
 
         /// <summary>
-        /// Adds a transaction to the system
+        /// Create a transaction to the system
         /// </summary>
         /// <param name="transaction">JSON FORM DATA of an transaction</param>
         /// <returns>
@@ -65,12 +67,12 @@ namespace Invetker.Controllers
         /// HEADER: 400 (Bad Request)
         /// </returns>
         /// <example>
-        /// POST: api/Transaction/Add
+        /// POST: api/Transaction
         /// FORM DATA: Transaction JSON Object
         /// </example>
         [ResponseType(typeof(Transaction))]
         [HttpPost]
-        public IHttpActionResult Add(TransactionAddViewModel transaction)
+        public IHttpActionResult Index(TransactionAddViewModel transaction)
         {
             if (!ModelState.IsValid)
             {
@@ -92,6 +94,129 @@ namespace Invetker.Controllers
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = newTransaction.Id }, newTransaction);
+        }
+
+        /// <summary>
+        /// Update a particular transaction in the system with PUT Data input
+        /// </summary>
+        /// <param name="id">Represents the Transaction ID primary key</param>
+        /// <param name="transaction">JSON FORM DATA of a transaction</param>
+        /// <returns>
+        /// HEADER: 204 (Success, No Content Response)
+        /// or
+        /// HEADER: 400 (Bad Request)
+        /// or
+        /// HEADER: 404 (Not Found)
+        /// </returns>
+        /// <example>
+        /// PUT: api/Transactions/5
+        /// FORM DATA: Transaction JSON Object
+        /// </example>
+        [Route("api/Transaction/{id}")]
+        [ResponseType(typeof(Transaction))]
+        [HttpPut]
+        public IHttpActionResult Update(int id, TransactionEditViewModel transaction)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string userId = User.Identity.GetUserId();
+            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+
+            if (Row == null)
+            {
+                //return NotFound();
+                return Content(HttpStatusCode.NotFound, "");
+            }
+
+            Row.Ticker = transaction.Ticker;
+            Row.Quantity = transaction.Quantity;
+            Row.Action = transaction.Action;
+            Row.Price = transaction.Price;
+            Row.Fee = transaction.Fee;
+            Row.Datetime = transaction.Datetime;
+            Row.Notes = transaction.Notes;
+
+            db.SaveChanges();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        /// <summary>
+        /// Returns transaction in the system by the current user.
+        /// </summary>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// CONTENT: An transaction in the system matching up to the transcation ID primary key
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <param name="id">The primary key of the transaction</param>
+        /// <example>
+        /// GET: api/Transaction/1
+        /// </example>
+        [Route("api/Transaction/{id}")]
+        [ResponseType(typeof(Transaction))]
+        [HttpGet]
+        public IHttpActionResult Find(int id)
+        {
+            string userId = User.Identity.GetUserId();
+            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+            Transaction Transaction = new Transaction();
+
+            if (Row == null)
+            {
+                //return NotFound();
+                return Content(HttpStatusCode.NotFound, "");
+            }
+
+            Transaction = new Transaction
+            {
+                Ticker = Row.Ticker,
+                Quantity = Row.Quantity,
+                Action = Row.Action,
+                Price = Row.Price,
+                Fee = Row.Fee,
+                Datetime = Row.Datetime,
+                Notes = Row.Notes,
+                CreatedAt = Row.CreatedAt,
+            };
+            
+            return Ok(Transaction);
+        }
+
+        /// <summary>
+        /// Delete a transaction from the system by the current user.
+        /// </summary>
+        /// <param name="id">The primary key of the transaction</param>
+        /// <returns>
+        /// HEADER: 200 (OK)
+        /// or
+        /// HEADER: 404 (NOT FOUND)
+        /// </returns>
+        /// <example>
+        /// POST: api/Transaction/5
+        /// FORM DATA: (empty)
+        /// </example>
+        [Route("api/Transaction/{id}")]
+        [HttpDelete]
+        public IHttpActionResult Delete(int id)
+        {
+            string userId = User.Identity.GetUserId();
+            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+
+            if (Row == null)
+            {
+                //return NotFound();
+                return Content(HttpStatusCode.NotFound, "");
+            }
+
+            db.Transactions.Remove(Row);
+            db.SaveChanges();
+
+            return Ok();
         }
     }
 }

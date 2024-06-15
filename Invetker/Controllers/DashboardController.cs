@@ -20,7 +20,7 @@ namespace Invetker.Controllers
         {
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
-            ViewData["Transactions"] = (transactionController.Index() as OkNegotiatedContentResult<List<Transaction>>).Content;
+            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
 
             return View();
         }
@@ -30,7 +30,7 @@ namespace Invetker.Controllers
         {
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
-            ViewData["Transactions"] = (transactionController.Index() as OkNegotiatedContentResult<List<Transaction>>).Content;
+            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
 
             return View();
         }
