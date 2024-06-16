@@ -9,10 +9,12 @@ namespace Invetker.Controllers
     public class DashboardController : Controller
     {
         TransactionController transactionController;
+        HoldingController holdingController;
 
         public DashboardController()
         {
             transactionController = new TransactionController();
+            holdingController = new HoldingController();
         }
 
         // GET: Dashboard
@@ -21,6 +23,7 @@ namespace Invetker.Controllers
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
             ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
+            ViewData["Holdings"] = (holdingController.List() as OkNegotiatedContentResult<List<HoldingViewModel>>).Content;
 
             return View();
         }

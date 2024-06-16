@@ -83,10 +83,10 @@
                         <tr class="align-middle">
                             <td>@transaction.Ticker</td>
                             <td>@transaction.Action</td>
-                            <td>@transaction.Quantity.ToString("n3")</td>
-                            <td>@transaction.Price.ToString("n3")</td>
-                            <td>@transaction.Fee.ToString("n3")</td>
-                            <td>@(((@transaction.Price * @transaction.Quantity) + @transaction.Fee).ToString("n3"))</td>
+                            <td>@String.Format("{0:#,##0.##}", transaction.Quantity)</td>
+                            <td>@String.Format("{0:#,##0.##}", transaction.Price)</td>
+                            <td>@String.Format("{0:#,##0.##}", transaction.Fee)</td>
+                            <td>@(@String.Format("{0:#,##0.##}", (@transaction.Price * @transaction.Quantity) + @transaction.Fee))</td>
                             <td>@transaction.Datetime</td>
                             <td>
                                 <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-edit text-secondary">
