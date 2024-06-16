@@ -6,12 +6,14 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-    <link rel="stylesheet" href="~/Styles/dashboard/transactions.css" asp-append-version="true" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/selectize.default.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Styles/dashboard/transactions.css" />
 }
 @section Scripts {
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="~/Scripts/dashboard/transactions.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/Scripts/selectize.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/dashboard/transactions.js"></script>
 }
 <nav class="px-4 py-3 mb-4 breadcrumb" aria-label="breadcrumb">
     <ol class="breadcrumb mb-0">
@@ -35,17 +37,17 @@
         </div>
         <div class="col-auto">
             <div class="input-group" id="daterangepicker">
-                <input type="text" class="form-control" name="daterange" />
+                <input type="text" class="form-control" name="Daterange" />
                 <span class="input-group-text bg-light">
                     <img src="~/images/icons/calendar.svg" />
                 </span>
             </div>
         </div>
         <div class="col-auto">
-            <label class="col-form-label" for="ticker">Ticker</label>
+            <label class="col-form-label" for="Ticker">Ticker</label>
         </div>
-        <div class="col-auto">
-            <input id="ticker" class="form-control " type="text">
+        <div class="col">
+            <select id="Ticker" name="Ticker" class="Ticker"></select>
         </div>
         <div class="col-auto">
             <button type="submit" class="btn btn-warning px-4">

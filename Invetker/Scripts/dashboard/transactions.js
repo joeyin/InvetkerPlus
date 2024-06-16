@@ -1,7 +1,7 @@
 ﻿$(function () {
     var start = moment().subtract(7, 'days');
     var end = moment();
-    $('input[name="daterange"]').daterangepicker({
+    $('input[name="Daterange"]').daterangepicker({
         opens: 'right',
         startDate: start,
         endDate: end,
@@ -122,6 +122,25 @@
         }
     }
 
+
+    $.ajax({
+        url: '/Files/Tickers.json',
+        type: 'GET',
+        dataType: 'json',
+        success: function (res) {
+            $(".Ticker").selectize({
+                plugins: ["restore_on_backspace", "clear_button"],
+                delimiter: " - ",
+                persist: false,
+                maxItems: 1,
+                valueField: "ticker",
+                labelField: "ticker",
+                searchField: ['ticker', 'name', 'exchange'],
+                options: res,
+            });
+
+        }
+    });
 
 
 });

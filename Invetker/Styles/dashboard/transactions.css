@@ -6,23 +6,45 @@
     height: 100%;
 }
 
-.card-wrap > .title {
-    color: rgb(var(--bs-warning-rgb));
-    font-weight: 700;
-    padding: 17px 20px;
-    border: 1px solid rgb(var(--gray150));
-}
+    .card-wrap > .title {
+        color: rgb(var(--bs-warning-rgb));
+        font-weight: 700;
+        padding: 17px 20px;
+        border: 1px solid rgb(var(--gray150));
+    }
 
-.card-wrap table {
-    font-size: 12px;
-}
+    .card-wrap table {
+        font-size: 12px;
+    }
 
-.card-wrap table th,
-.card-wrap table td {
-    padding: 15px 20px !important;
-}
+        .card-wrap table th,
+        .card-wrap table td {
+            padding: 15px 20px !important;
+        }
 
 #daterangepicker,
 #ticker {
     width: 300px;
+}
+
+.selectize-input {
+    padding: 0.563rem 0.75rem;
+}
+
+.selectize-control.single .selectize-input {
+    background-color: #fff;
+    background-image: none;
+    border-color: #ced4da;
+}
+
+.selectize-dropdown .selected {
+    background-color: rgb(var(--bs-warning-rgb));
+}
+
+.selectize-dropdown .option {
+    padding: 0.563rem 0.75rem;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+    font-size: 1rem;
 }
