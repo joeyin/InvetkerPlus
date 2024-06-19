@@ -1,22 +1,20 @@
-﻿@model Invetker.Models.RegisterViewModel
-
-<div class="tab-pane fade" id="sign-up" role="tabpanel" aria-labelledby="sign-up" tabindex="0">
+﻿<div class="tab-pane fade" id="sign-up" role="tabpanel" aria-labelledby="sign-up" tabindex="0">
     @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "register", role = "form", @class = "mt-3 needs-validation", novalidate = "true" }))
     {
         <div class="px-4">
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="mb-3">
-                @Html.LabelFor(m => m.Email, new { @class = "form-label required" })
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "true" })
+                <label for="model-register-email" class="form-label required">Email</label>
+                <input type="email" class="form-control" id="model-register-email" name="Email" required>
             </div>
             <div class="mb-3">
-                @Html.LabelFor(m => m.Password, new { @class = "form-label required" })
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control", required = "true" })
+                <label for="model-register-password" class="form-label required" required>Password</label>
+                <input type="password" class="form-control" id="model-register-password" name="Password" required>
             </div>
             <div class="mb-3">
-                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "form-label required" })
-                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", required = "true" })
+                <label for="model-register-confirm-password" class="form-label required">Confirm Password</label>
+                <input type="password" class="form-control" id="model-register-confirm-password" name="ConfirmPassword" required>
+                <div class="custom-invalid-feedback">Passwords do not match</div>
             </div>
         </div>
         <div class="modal-footer px-4">
