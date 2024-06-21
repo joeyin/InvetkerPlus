@@ -71,41 +71,32 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         @foreach (HoldingViewModel holding in ViewData["Holdings"] as List<Invetker.Models.HoldingViewModel>)
                         {
                             <tr>
                                 <td>@holding.Ticker</td>
                                 <td>@String.Format("{0:#,##0.##}", holding.Position)</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td>@String.Format("{0:#,##0.##}", holding.Price)</td>
+                                <td>
+                                    <span class="@(holding.Change >= 0 ? "text-success" : "text-danger")">
+                                        @(holding.Change >= 0? "+" : "")@String.Format("{0:#,##0.##}", holding.Change)%
+                                    </span>
+                                </td>
                                 <td>@String.Format("{0:#,##0.##}", holding.Amount)</td>
-                                <td></td>
+                                <td>@String.Format("{0:#,##0.##}", holding.MarketVal)</td>
                                 <td>@String.Format("{0:#,##0.##}", holding.AvgPrice)</td>
-                                <td>-</td>
-                                <td>-</td>
+                                <td>
+                                    <span class="@(holding.DailyPL >= 0 ? "text-success" : "text-danger")">
+                                        @(holding.DailyPL >= 0? "+" : "")@String.Format("{0:#,##0.##}", holding.DailyPL)
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="@(holding.UnrealizedPL >= 0 ? "text-success" : "text-danger")">
+                                        @(holding.UnrealizedPL >= 0? "+" : "")@String.Format("{0:#,##0.##}", holding.UnrealizedPL)
+                                    </span>
+                                </td>
                             </tr>
                         }
-
-                        <!--
-                        <tr>
-                            <td>TSLA</td>
-                            <td>20</td>
-                            <td>182.14</td>
-                            <td>
-                                <span class="text-success">+2%</span>
-                            </td>
-                            <td>3,442.8</td>
-                            <td>3642.8</td>
-                            <td>172.14</td>
-                            <td>
-                                <span class="text-success">+20.00</span>
-                            </td>
-                            <td>
-                                <span class="text-success">+20.00</span>
-                            </td>
-                        </tr>
-                        -->
                     </tbody>
                 </table>
             </div>
@@ -151,174 +142,32 @@
         <div id="top-portfolio" class="card-wrap d-flex flex-column">
             <div class="title">Top Portfolio Positions</div>
             <div class="content flex-grow-1 d-flex overflow-auto">
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>1</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
+                @foreach (TopPositionViewModel top in ViewData["TopHoldings"] as List<Invetker.Models.TopPositionViewModel>)
+                {
+                    <div class="ranking d-flex align-items-end">
+                        <div class="no d-flex flex-column align-self-baseline">Top <span>@top.No</span></div>
+                        <img class="company-logo" alt="@top.Ticker" aria-label="@top.Ticker"
+                             src="@top.Icon" />
+                        <div class="company-detail d-flex flex-column">
+                            <span class="name">@top.Ticker</span>
+                            <span class="description">@top.Description</span>
+                            <span>POSITION: @top.Position</span>
+                            <span>PRICE: @top.Price</span>
+                            <span>
+                                DAILY P&L:
+                                <span class="@(top.DailyPL >= 0 ? "text-success" : "text-danger")">
+                                    @(top.DailyPL >= 0? "+" : "")@String.Format("{0:#,##0.##}", top.DailyPL)
+                                </span>
+                            </span>
+                            <span>
+                                UNREALIZED P&L:
+                                <span class="@(top.UnrealizedPL >= 0 ? "text-success" : "text-danger")">
+                                    @(top.UnrealizedPL >= 0? "+" : "")@String.Format("{0:#,##0.##}", top.UnrealizedPL)
+                                </span>
+                            </span>
+                        </div>
                     </div>
-                </div>
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>2</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
-                    </div>
-                </div>
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>3</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
-                    </div>
-                </div>
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>4</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
-                    </div>
-                </div>
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>5</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
-                    </div>
-                </div>
-                <div class="ranking d-flex align-items-end">
-                    <div class="no d-flex flex-column align-self-baseline">Top <span>6</span></div>
-                    <img class="company-logo" alt="TESLA" aria-label="TESLA"
-                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Tesla_logo.png/1200px-Tesla_logo.png" />
-                    <div class="company-detail d-flex flex-column">
-                        <span class="name">TESLA</span>
-                        <span class="description">
-                            Overview Segment Analysis Financials Executives SWOT Analysis Locations
-                            Competitors Deals Filing Analytics Patents Theme Exposure Media Premium Data Product Life Cycle Factory
-                            Finder IT Services Contracts ICT Spend & Tech Priorities Related keylists View more Top 10 Original
-                            Equipment Manufacturers in the World by Market Capitalization Electric Vehicles: Leading Technology
-                            Companies Top 10 Automotive OEM Companies in the World in 2021 by P/E Top 9 Automotive OEMs in the US in
-                            2021 by Revenue Tesla Inc (Tesla) is an automotive and energy company. It designs, develops, manufactures,
-                            sells, and leases electric vehicles, energy generation, and storage systems. It produces and sells the
-                            Model Y, Model 3, Model X, Model S, Cybertruck, Tesla Semi, and Tesla Roadster vehicles. Tesla also
-                            installs and maintains energy systems, sells solar electricity; and offers end-to-end clean energy
-                            products, including generation, storage, and consumption. It markets and sells vehicles to consumers
-                            through company-owned stores and galleries. The company has manufacturing facilities in the US, Germany,
-                            and China and has operations across the Asia Pacific and Europe. Tesla is headquartered in Austin, Texas,
-                            the US. During this workshop, you will learn about how to create a budget as well as tips and tricks for
-                            reducing your spending habits.
-                        </span>
-                        <span>POSITION: 20</span>
-                        <span>LAST: 171.99</span>
-                        <span>DAILY P&L: +350.00</span>
-                        <span>UNREALIZED P&L: +3500.00</span>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </div>

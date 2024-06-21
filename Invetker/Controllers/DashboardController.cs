@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Http.Results;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Invetker.Controllers
 {
@@ -18,12 +20,17 @@ namespace Invetker.Controllers
         }
 
         // GET: Dashboard
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
             ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
-            ViewData["Holdings"] = (holdingController.List() as OkNegotiatedContentResult<List<HoldingViewModel>>).Content;
+
+            var holdingControllerList = await (holdingController.List() as Task<System.Web.Http.IHttpActionResult>);
+            ViewData["Holdings"] = (holdingControllerList as OkNegotiatedContentResult<List<HoldingViewModel>>).Content;
+
+            var holdingControllerTop = await (holdingController.Top() as Task<System.Web.Http.IHttpActionResult>);
+            ViewData["TopHoldings"] = (holdingControllerTop as OkNegotiatedContentResult<List<TopPositionViewModel>>).Content;
 
             return View();
         }

@@ -17,6 +17,7 @@ using System.Web.Security;
 
 namespace Invetker.Controllers
 {
+    [Authorize]
     public class TransactionController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
