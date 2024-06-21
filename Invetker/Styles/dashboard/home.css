@@ -99,6 +99,7 @@
     height: 158px;
     border: 1px solid rgb(var(--gray150));
     object-fit: contain;
+    padding: 20px;
 }
 
 #top-portfolio .ranking .company-detail {
