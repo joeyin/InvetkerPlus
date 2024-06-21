@@ -49,7 +49,7 @@ namespace Invetker.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            List<HoldingViewModel> Transactions = db.Transactions.GroupBy(d => new { d.Ticker, d.Action })
+            List<HoldingViewModel> Transactions = db.Transactions.Where(i => i.UserId == userId).GroupBy(d => new { d.Ticker, d.Action })
             .Select(
                 g => new HoldingViewModel()
                 {
