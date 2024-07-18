@@ -23,4 +23,14 @@ namespace Invetker.Models
         [Required]
         public DateTime Timestamp { get; set; }
     }
+    public class PricesModelDto
+    {
+        public int Id { get; set; }
+
+        public int AssetId { get; set; }
+
+        public decimal Price { get; set; }
+
+        public DateTime Timestamp { get; set; }
+    }
 }
