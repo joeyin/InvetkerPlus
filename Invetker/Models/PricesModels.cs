@@ -34,5 +34,8 @@ namespace Invetker.Models
         public DateTime Timestamp { get; set; }
 
         public string color { get; set; }
+
+        public string text { get; set; }
+
     }
 }
