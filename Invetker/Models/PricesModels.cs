@@ -32,10 +32,5 @@ namespace Invetker.Models
         public decimal Price { get; set; }
 
         public DateTime Timestamp { get; set; }
-
-        public string color { get; set; }
-
-        public string text { get; set; }
-
     }
 }
