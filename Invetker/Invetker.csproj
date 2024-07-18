@@ -228,10 +228,15 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CryptocurrenciesModels.cs" />
+    <Compile Include="Models\NewsModels.cs" />
+    <Compile Include="Models\StocksModels.cs" />
+    <Compile Include="Models\AssetsModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\HoldingModel.cs" />
     <Compile Include="Models\PolygonIO.cs" />
+    <Compile Include="Models\PricesModels.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\Performance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

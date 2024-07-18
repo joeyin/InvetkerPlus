@@ -18,6 +18,9 @@ namespace Invetker.Models
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         [Required]
+        public int AssetId { get; set; }
+
+        [Required]
         public string Ticker { get; set; }
 
         [Required]
