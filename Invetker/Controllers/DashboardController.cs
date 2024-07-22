@@ -24,7 +24,7 @@ namespace Invetker.Controllers
         {
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
-            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
+            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<TransactionsModels>>).Content;
 
             var holdingControllerList = await (holdingController.List() as Task<System.Web.Http.IHttpActionResult>);
             ViewData["Holdings"] = (holdingControllerList as OkNegotiatedContentResult<List<HoldingViewModel>>).Content;
@@ -40,7 +40,7 @@ namespace Invetker.Controllers
         {
             ViewBag.SliderCollapsed = Request.Cookies["slider-collapsed"]?.Value;
 
-            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<Transaction>>).Content;
+            ViewData["Transactions"] = (transactionController.List() as OkNegotiatedContentResult<List<TransactionsModels>>).Content;
 
             return View();
         }

@@ -8,14 +8,14 @@ using System.Web;
 
 namespace Invetker.Models
 {
-    public class PricesModel
+    public class PricesModels
     {
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [ForeignKey("Assets")]
+        [ForeignKey("AssetsModels")]
         public int AssetId { get; set; }
+        public virtual AssetsModels AssetsModels { get; set; }
 
         [Required]
         public decimal Price { get; set; }

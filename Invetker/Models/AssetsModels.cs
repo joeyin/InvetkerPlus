@@ -2,13 +2,13 @@
 
 namespace Invetker.Models
 {
-    public class AssetsModel
+    public class AssetsModels
     {
         [Key]
         public int AssetId { get; set; }
 
         [Required]
-        public AssetType Action { get; set; }
+        public AssetType Type { get; set; }
 
         [Required]
         public int SymbolId { get; set; }

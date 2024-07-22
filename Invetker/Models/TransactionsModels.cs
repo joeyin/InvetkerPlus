@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Invetker.Models
 {
-    public class Transaction
+    public class TransactionsModels
     {
         [Key]
         public int Id { get; set; }

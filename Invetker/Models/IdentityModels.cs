@@ -26,9 +26,19 @@ namespace Invetker.Models
         }
 
         //Gateway between our C# and our database
-        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<TransactionsModels> Transactions { get; set; }
 
-        public DbSet<Performance> Performances { get; set; }
+        public DbSet<PerformancesModels> Performances { get; set; }
+
+        public DbSet<AssetsModels> Assets { get; set; }
+
+        public DbSet<StocksModels> Stocks { get; set; }
+
+        public DbSet<CryptocurrenciesModels> Cryptocurrencies { get; set; }
+
+        public DbSet<PricesModels> Prices { get; set; }
+
+        public DbSet<NewsModels> News { get; set; }
 
         public static ApplicationDbContext Create()
         {

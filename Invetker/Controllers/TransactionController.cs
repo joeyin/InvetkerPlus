@@ -33,15 +33,15 @@ namespace Invetker.Controllers
         /// GET: api/Transaction/list
         /// </example>
         [HttpGet]
-        [ResponseType(typeof(Transaction))]
+        [ResponseType(typeof(TransactionsModels))]
         public IHttpActionResult List()
         {
             string userId = User.Identity.GetUserId();
 
-            List<Transaction> Transactions = db.Transactions.Where(t => t.UserId == userId).OrderByDescending(t => t.Datetime).ToList();
-            List<Transaction> TransactionDtos = new List<Transaction>();
+            List<TransactionsModels> Transactions = db.Transactions.Where(t => t.UserId == userId).OrderByDescending(t => t.Datetime).ToList();
+            List<TransactionsModels> TransactionDtos = new List<TransactionsModels>();
 
-            Transactions.ForEach(t => TransactionDtos.Add(new Transaction()
+            Transactions.ForEach(t => TransactionDtos.Add(new TransactionsModels()
             {
                 Id = t.Id,
                 Ticker = t.Ticker,
@@ -71,7 +71,7 @@ namespace Invetker.Controllers
         /// POST: api/Transaction
         /// FORM DATA: Transaction JSON Object
         /// </example>
-        [ResponseType(typeof(Transaction))]
+        [ResponseType(typeof(TransactionsModels))]
         [HttpPost]
         public IHttpActionResult Index(TransactionAddViewModel transaction)
         {
@@ -80,7 +80,7 @@ namespace Invetker.Controllers
                 return BadRequest(ModelState);
             }
 
-            Transaction newTransaction = new Transaction();
+            TransactionsModels newTransaction = new TransactionsModels();
             newTransaction.UserId = User.Identity.GetUserId();
             newTransaction.Ticker = transaction.Ticker;
             newTransaction.Quantity = transaction.Quantity;
@@ -114,7 +114,7 @@ namespace Invetker.Controllers
         /// FORM DATA: Transaction JSON Object
         /// </example>
         [Route("api/Transaction/{id}")]
-        [ResponseType(typeof(Transaction))]
+        [ResponseType(typeof(TransactionsModels))]
         [HttpPut]
         public IHttpActionResult Update(int id, TransactionEditViewModel transaction)
         {
@@ -124,7 +124,7 @@ namespace Invetker.Controllers
             }
 
             string userId = User.Identity.GetUserId();
-            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+            TransactionsModels Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
 
             if (Row == null)
             {
@@ -159,13 +159,13 @@ namespace Invetker.Controllers
         /// GET: api/Transaction/1
         /// </example>
         [Route("api/Transaction/{id}")]
-        [ResponseType(typeof(Transaction))]
+        [ResponseType(typeof(TransactionsModels))]
         [HttpGet]
         public IHttpActionResult Find(int id)
         {
             string userId = User.Identity.GetUserId();
-            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
-            Transaction Transaction = new Transaction();
+            TransactionsModels Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+            TransactionsModels Transaction = new TransactionsModels();
 
             if (Row == null)
             {
@@ -173,7 +173,7 @@ namespace Invetker.Controllers
                 return Content(HttpStatusCode.NotFound, "");
             }
 
-            Transaction = new Transaction
+            Transaction = new TransactionsModels
             {
                 Ticker = Row.Ticker,
                 Quantity = Row.Quantity,
@@ -206,7 +206,7 @@ namespace Invetker.Controllers
         public IHttpActionResult Delete(int id)
         {
             string userId = User.Identity.GetUserId();
-            Transaction Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
+            TransactionsModels Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
 
             if (Row == null)
             {

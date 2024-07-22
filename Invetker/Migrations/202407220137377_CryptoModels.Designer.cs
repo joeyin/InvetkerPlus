@@ -6,14 +6,14 @@ namespace Invetker.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Performances : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
+    public sealed partial class CryptoModels : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Performances));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(CryptoModels));
         
         string IMigrationMetadata.Id
         {
-            get { return "202406150108290_Performances"; }
+            get { return "202407220137377_CryptoModels"; }
         }
         
         string IMigrationMetadata.Source

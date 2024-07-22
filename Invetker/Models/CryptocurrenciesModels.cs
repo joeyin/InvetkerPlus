@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Invetker.Models
 {
-    public class CryptocurrenciesModel
+    public class CryptocurrenciesModels
     {
         [Key]
         public int Id { get; set; }

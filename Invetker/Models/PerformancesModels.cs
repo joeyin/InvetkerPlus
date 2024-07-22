@@ -10,7 +10,7 @@ using System.Web;
 namespace Invetker.Models
 {
     // This table will automatically trigger daily to store users' performances
-    public class Performance
+    public class PerformancesModels
     {
         [Key]
         public int Id { get; set; }
