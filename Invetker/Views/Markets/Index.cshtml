@@ -1,0 +1,235 @@
+﻿@model IEnumerable<Invetker.Models.CryptocurrenciesModelsDto>
+
+@{
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    ViewBag.Title = "Markets";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/Styles/dashboard/home.css" asp-append-version="true" />
+}
+
+<div class="container-fluid">
+    <h1 class="text-center mt-4 mb-4">Market Overview</h1>
+
+    <!-- First Row: US Markets and Top Cryptocurrencies -->
+    <div class="row">
+        <div class="col-md-6">
+            <h2>US Markets</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Index</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>High</th>
+                        <th>Low</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Dow Jones</td>
+                        <td>33,981</td>
+                        <td>-0.37%</td>
+                        <td>-126.15</td>
+                        <td>34,111</td>
+                        <td>33,907</td>
+                    </tr>
+                    <tr>
+                        <td>NASDAQ</td>
+                        <td>12,033</td>
+                        <td>+0.55%</td>
+                        <td>+66.36</td>
+                        <td>12,100</td>
+                        <td>11,940</td>
+                    </tr>
+                    <tr>
+                        <td>S&P 500</td>
+                        <td>4,204</td>
+                        <td>-0.22%</td>
+                        <td>-9.22</td>
+                        <td>4,220</td>
+                        <td>4,180</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2>Top Cryptocurrencies</h2>
+            <table class="table" id="cryptocurrenciesTable">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Market Cap</th>
+                        <th>Circulating Supply</th>
+                        <th>Max Supply</th>
+                        <th>Created At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["CryptocurrenciesModels"] != null)
+                    {
+                        var cryptocurrencies = ViewData["CryptocurrenciesModels"] as IEnumerable<Invetker.Models.CryptocurrenciesModelsDto>;
+                        if (cryptocurrencies != null && cryptocurrencies.Any())
+                        {
+                            foreach (var item in cryptocurrencies)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>@item.MarketCap</td>
+                                    <td>@item.CirculatingSupply</td>
+                                    <td>@item.MaxSupply</td>
+                                    <td>@item.CreatedAt</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">No data available</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Second Row: Stocks and Crypto Tables -->
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Stocks: Most Active</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>VOL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TSLA</td>
+                        <td>$620</td>
+                        <td>-0.8%</td>
+                        <td>-$5</td>
+                        <td>5M</td>
+                    </tr>
+                    <tr>
+                        <td>AMZN</td>
+                        <td>$140</td>
+                        <td>+0.5%</td>
+                        <td>+$0.7</td>
+                        <td>2M</td>
+                    </tr>
+                    <tr>
+                        <td>APPL</td>
+                        <td>$170</td>
+                        <td>+0.3%</td>
+                        <td>+$0.5</td>
+                        <td>3M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Stocks: Top Gainers</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>VOL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BIDU</td>
+                        <td>$142</td>
+                        <td>+3.5%</td>
+                        <td>+$4.9</td>
+                        <td>1M</td>
+                    </tr>
+                    <tr>
+                        <td>NFLX</td>
+                        <td>$352</td>
+                        <td>+2.8%</td>
+                        <td>+$9.6</td>
+                        <td>2M</td>
+                    </tr>
+                    <tr>
+                        <td>DIS</td>
+                        <td>$105</td>
+                        <td>+1.9%</td>
+                        <td>+$2</td>
+                        <td>1.5M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h2>Crypto: Most Active</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>VOL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DOGE</td>
+                        <td>$0.12</td>
+                        <td>-0.8%</td>
+                        <td>-$0.001</td>
+                        <td>500M</td>
+                    </tr>
+                    <tr>
+                        <td>SOL</td>
+                        <td>$22</td>
+                        <td>+1.2%</td>
+                        <td>+$0.26</td>
+                        <td>200M</td>
+                    </tr>
+                    <tr>
+                        <td>ADA</td>
+                        <td>$0.85</td>
+                        <td>-1.1%</td>
+                        <td>-$0.01</td>
+                        <td>300M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Third Row: News Blocks -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="news-block">
+                <h3>Latest Market News</h3>
+                <p>Breaking news about finance...</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="news-block">
+                <h3>Investment Tips</h3>
+                <p>Top tips for today's market...</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="news-block">
+                <h3>Technology Stocks</h3>
+                <p>Insights into the tech market...</p>
+            </div>
+        </div>
+    </div>
+</div>
