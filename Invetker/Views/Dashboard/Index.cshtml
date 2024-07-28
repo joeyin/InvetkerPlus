@@ -1,5 +1,5 @@
 ﻿@using Invetker.Models
-@model Transaction
+@model TransactionsModels
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
@@ -120,7 +120,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (Transaction transaction in ViewData["Transactions"] as List<Invetker.Models.Transaction>)
+                        @foreach (TransactionsModels transaction in ViewData["Transactions"] as List<Invetker.Models.TransactionsModels>)
                         {
                             <tr>
                                 <td>@transaction.Ticker</td>
