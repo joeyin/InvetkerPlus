@@ -1,19 +1,16 @@
 ﻿using Invetker.Models;
 using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Security.Principal;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Security;
+using System.Web.Razor.Generator;
+using System.Web.Razor.Tokenizer.Symbols;
 
 namespace Invetker.Controllers
 {
@@ -38,23 +35,53 @@ namespace Invetker.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            List<TransactionsModels> Transactions = db.Transactions.Where(t => t.UserId == userId).OrderByDescending(t => t.Datetime).ToList();
-            List<TransactionsModels> TransactionDtos = new List<TransactionsModels>();
+            List<TransactionViewModel> StockTransactions = db.Transactions
+                .Where(t => t.UserId == userId && t.AssetType == AssetType.Stock)
+                .Join(
+                    db.Stocks,
+                    t => t.AssetId,
+                    s => s.Id,
+                    (t, s) => new TransactionViewModel
+                    {
+                        Id = t.Id,
+                        AssetType = AssetType.Stock,
+                        Symbol = s.Symbol,
+                        Action = t.Action,
+                        Quantity = t.Quantity,
+                        Price = t.Price,
+                        Fee = t.Fee,
+                        DateTime = t.Datetime
+                    }
+                 )
+                .ToList();
 
-            Transactions.ForEach(t => TransactionDtos.Add(new TransactionsModels()
-            {
-                Id = t.Id,
-                Ticker = t.Ticker,
-                Quantity = t.Quantity,
-                Action = t.Action,
-                Price = t.Price,
-                Fee = t.Fee,
-                Datetime = t.Datetime,
-                Notes = t.Notes,
-                CreatedAt = t.CreatedAt,
-            }));
+            List<TransactionViewModel> CryptoTransactions = db.Transactions
+                .Where(t => t.UserId == userId && t.AssetType == AssetType.Crypto)
+                .Join(
+                    db.Stocks,
+                    t => t.AssetId,
+                    s => s.Id,
+                    (t, s) => new TransactionViewModel
+                    {
+                        Id = t.Id,
+                        AssetType = AssetType.Stock,
+                        Symbol = s.Symbol,
+                        Action = t.Action,
+                        Quantity = t.Quantity,
+                        Price = t.Price,
+                        Fee = t.Fee,
+                        DateTime = t.Datetime
+                    }
+                 )
+                .ToList();
 
-            return Ok(TransactionDtos);
+            List<TransactionViewModel> combinedTransactions = StockTransactions
+                .Cast<TransactionViewModel>()
+                .Union(CryptoTransactions.Cast<TransactionViewModel>())
+                .OrderByDescending(t => t.DateTime)
+                .ToList();
+
+            return Ok(combinedTransactions);
         }
 
         /// <summary>
@@ -82,7 +109,8 @@ namespace Invetker.Controllers
 
             TransactionsModels newTransaction = new TransactionsModels();
             newTransaction.UserId = User.Identity.GetUserId();
-            newTransaction.Ticker = transaction.Ticker;
+            newTransaction.AssetType = transaction.AssetType;
+            newTransaction.AssetId = transaction.AssetId;
             newTransaction.Quantity = transaction.Quantity;
             newTransaction.Action = transaction.Action;
             newTransaction.Price = transaction.Price;
@@ -132,7 +160,8 @@ namespace Invetker.Controllers
                 return Content(HttpStatusCode.NotFound, "");
             }
 
-            Row.Ticker = transaction.Ticker;
+            Row.AssetType = transaction.AssetType;
+            Row.AssetId = transaction.AssetId;
             Row.Quantity = transaction.Quantity;
             Row.Action = transaction.Action;
             Row.Price = transaction.Price;
@@ -167,6 +196,8 @@ namespace Invetker.Controllers
             TransactionsModels Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
             TransactionsModels Transaction = new TransactionsModels();
 
+            Debug.WriteLine(666);
+
             if (Row == null)
             {
                 //return NotFound();
@@ -175,7 +206,7 @@ namespace Invetker.Controllers
 
             Transaction = new TransactionsModels
             {
-                Ticker = Row.Ticker,
+                AssetId = Row.AssetId,
                 Quantity = Row.Quantity,
                 Action = Row.Action,
                 Price = Row.Price,
@@ -184,8 +215,8 @@ namespace Invetker.Controllers
                 Notes = Row.Notes,
                 CreatedAt = Row.CreatedAt,
             };
-            
-            return Ok(Transaction);
+            Debug.WriteLine(666);
+            return Ok();
         }
 
         /// <summary>

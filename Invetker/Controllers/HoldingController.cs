@@ -29,9 +29,16 @@ namespace Invetker.Controllers
     [Authorize]
     public class HoldingController : ApiController
     {
+        TransactionController transactionController;
+
         private ApplicationDbContext db = new ApplicationDbContext();
         private const string URL = "https://api.polygon.io/v3/reference/tickers/";
-        private const string API_KEY = "";
+        private const string API_KEY = "wnoNdymQNypqwkKazeJLbnZRUMS27Fzp";
+
+        public HoldingController()
+        {
+            transactionController = new TransactionController();
+        }
 
         /// <summary>
         /// Returns all current stock holding in the system by the current user.
@@ -49,39 +56,40 @@ namespace Invetker.Controllers
         {
             string userId = User.Identity.GetUserId();
 
-            List<HoldingViewModel> Transactions = db.Transactions.Where(i => i.UserId == userId).GroupBy(d => new { d.Ticker, d.Action })
-            .Select(
-                g => new HoldingViewModel()
-                {
-                    Ticker = g.Key.Ticker,
-                    Position = g.Sum(s => s.Action == ActionType.Sold ? s.Quantity * -1 : s.Quantity),
-                    Amount = g.Sum(s => s.Action == ActionType.Sold ? ((s.Price * s.Quantity) + s.Fee) * -1 : (s.Price * s.Quantity) + s.Fee)
-                }
-            ).ToList();
+            List<HoldingViewModel> Transactions = (transactionController.List() as OkNegotiatedContentResult<List<TransactionViewModel>>).Content
+                .GroupBy(d => new { d.Symbol, d.AssetType, d.Action })
+                .Select(d => new HoldingViewModel {
+                    Symbol = d.Key.Symbol,
+                    Position = d.Sum(s => s.Action == ActionType.Sold ? s.Quantity * -1 : s.Quantity),
+                    Amount = d.Sum(s => s.Action == ActionType.Sold ? ((s.Price * s.Quantity) + s.Fee) * -1 : (s.Price * s.Quantity) + s.Fee)
+                })
+                .ToList();
 
             List<HoldingViewModel> Holdings = Transactions
-            .GroupBy(t => t.Ticker)
+            .GroupBy(t => t.Symbol)
             .Select(g => new HoldingViewModel()
             {
-                Ticker = g.Key,
+                Symbol = g.Key,
                 Position = g.Sum(t => t.Position),
                 Amount = g.Sum(t => t.Amount)
             }).ToList();
 
-            foreach(HoldingViewModel i in Holdings)
+            /*
+            foreach (HoldingViewModel i in Holdings)
             {
-                var securites = await Yahoo.Symbols(i.Ticker).Fields(
+                var securites = await Yahoo.Symbols(i.Symbol).Fields(
                     Field.RegularMarketPrice,
                     Field.RegularMarketChangePercent,
                     Field.RegularMarketChange
                 ).QueryAsync();
-                i.Price = (decimal)securites[i.Ticker][Field.RegularMarketPrice];
-                i.Change = (decimal)securites[i.Ticker][Field.RegularMarketChangePercent];
+                i.Price = (decimal)securites[i.Symbol][Field.RegularMarketPrice];
+                i.Change = (decimal)securites[i.Symbol][Field.RegularMarketChangePercent];
                 i.AvgPrice = i.Amount / i.Position;
-                i.DailyPL = i.Position * (decimal)securites[i.Ticker][Field.RegularMarketChange];
-                i.MarketVal = i.Position * (decimal)securites[i.Ticker][Field.RegularMarketPrice];
+                i.DailyPL = i.Position * (decimal)securites[i.Symbol][Field.RegularMarketChange];
+                i.MarketVal = i.Position * (decimal)securites[i.Symbol][Field.RegularMarketPrice];
                 i.UnrealizedPL = i.MarketVal - i.Amount;
             }
+            */
 
             return Ok(Holdings);
         }
@@ -103,8 +111,9 @@ namespace Invetker.Controllers
         {
             var holdingControllerList = await (this.List() as Task<System.Web.Http.IHttpActionResult>);
             HoldingViewModel[] Holdings = (holdingControllerList as OkNegotiatedContentResult<List<HoldingViewModel>>).Content.ToArray();
-            HoldingViewModel[] Sorted = Holdings.OrderByDescending(i => i.Ticker).ToArray();
-            HoldingViewModel[] Portfolio = Sorted.Where(i => i.UnrealizedPL > 0).ToArray();
+            HoldingViewModel[] Sorted = Holdings.OrderByDescending(i => i.Symbol).ToArray();
+            //HoldingViewModel[] Portfolio = Sorted.Where(i => i.UnrealizedPL > 0).ToArray();
+            HoldingViewModel[] Portfolio = Sorted.ToArray();
 
             List<TopPositionViewModel> TopPositions = new List<TopPositionViewModel>();
 
@@ -115,7 +124,7 @@ namespace Invetker.Controllers
                 HttpClient client = new HttpClient();
                 client.BaseAddress = new Uri(URL);
 
-                HttpResponseMessage response = client.GetAsync(i.Ticker + "?apiKey=" + API_KEY).Result;
+                HttpResponseMessage response = client.GetAsync(i.Symbol + "?apiKey=" + API_KEY).Result;
                 var json = await response.Content.ReadAsStringAsync();
                 var data = JObject.Parse(json);
 
@@ -133,7 +142,7 @@ namespace Invetker.Controllers
                 {
                     No = no,
                     Position = i.Position,
-                    Ticker = i.Ticker,
+                    Symbol = i.Symbol,
                     Price = i.Price,
                     DailyPL = i.DailyPL,
                     UnrealizedPL = i.UnrealizedPL,

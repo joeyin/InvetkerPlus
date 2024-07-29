@@ -21,9 +21,19 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="mb-3">
+                                @Html.LabelFor(m => m.AssetType, new { @class = "form-label required" })
+                                @Html.DropDownListFor(
+                                o => o.AssetType,
+                                Enum.GetValues(typeof(AssetType)).Cast<AssetType>
+                                    ().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }),
+                                    new { @class = "form-control", required = "true" }
+                                    )
+                                @Html.ValidationMessageFor(m => m.AssetType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mb-3">
                                 <div class="control-group">
-                                    @Html.LabelFor(m => m.Ticker, new { @class = "form-label required" })
-                                    <select id="Ticker" class="Ticker" name="Ticker" required></select>
+                                    @Html.LabelFor(m => m.AssetId, new { @class = "form-label required" })
+                                    <select id="Ticker" class="Ticker" name="AssetId" required></select>
                                 </div>
                             </div>
                             <div class="mb-3">

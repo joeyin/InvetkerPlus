@@ -8,8 +8,6 @@
         maxDate: moment(),
         applyButtonClasses: 'btn-warning text-light',
         drops: "auto",
-    }, function (start, end, label) {
-        console.log(start, end, label)
     });
 
     $('#Datetime').daterangepicker({
@@ -124,7 +122,7 @@
 
 
     $.ajax({
-        url: '/Files/Tickers.json',
+        url: '/api/stock/list',
         type: 'GET',
         dataType: 'json',
         success: function (res) {
@@ -133,9 +131,9 @@
                 delimiter: " - ",
                 persist: false,
                 maxItems: 1,
-                valueField: "ticker",
-                labelField: "ticker",
-                searchField: ['ticker', 'name', 'exchange'],
+                valueField: "Id",
+                labelField: "Symbol",
+                searchField: ['Name', 'Symbol'],
                 options: res,
             });
 

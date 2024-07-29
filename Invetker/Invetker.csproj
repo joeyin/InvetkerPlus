@@ -218,6 +218,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\CryptocurrenciesModelsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -235,6 +236,18 @@
     <Compile Include="Migrations\202407220137377_CryptoModels.cs" />
     <Compile Include="Migrations\202407220137377_CryptoModels.Designer.cs">
       <DependentUpon>202407220137377_CryptoModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407281847204_UpdateStocks.cs" />
+    <Compile Include="Migrations\202407281847204_UpdateStocks.Designer.cs">
+      <DependentUpon>202407281847204_UpdateStocks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407282042231_UpdateTransactions.cs" />
+    <Compile Include="Migrations\202407282042231_UpdateTransactions.Designer.cs">
+      <DependentUpon>202407282042231_UpdateTransactions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202407290109090_UpdateCryptocurrencies.cs" />
+    <Compile Include="Migrations\202407290109090_UpdateCryptocurrencies.Designer.cs">
+      <DependentUpon>202407290109090_UpdateCryptocurrencies.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -339,7 +352,6 @@
     <Content Include="Views\Shared\UserModel\Index.cshtml" />
     <Content Include="Views\Dashboard\Index.cshtml" />
     <Content Include="Views\Dashboard\Transactions.cshtml" />
-    <Content Include="Views\Dashboard\TransactionModel.cshtml" />
     <Content Include="Views\Markets\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -382,6 +394,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407220137377_CryptoModels.resx">
       <DependentUpon>202407220137377_CryptoModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407281847204_UpdateStocks.resx">
+      <DependentUpon>202407281847204_UpdateStocks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407282042231_UpdateTransactions.resx">
+      <DependentUpon>202407282042231_UpdateTransactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202407290109090_UpdateCryptocurrencies.resx">
+      <DependentUpon>202407290109090_UpdateCryptocurrencies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

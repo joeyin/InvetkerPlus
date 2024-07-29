@@ -12,6 +12,9 @@ namespace Invetker.Models
         public string Name { get; set; }
 
         [Required]
+        public string Logo { get; set; }
+
+        [Required]
         public string Symbol { get; set; }
 
         [Required]

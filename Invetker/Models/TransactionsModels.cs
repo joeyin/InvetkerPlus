@@ -16,12 +16,12 @@ namespace Invetker.Models
         [ForeignKey("ApplicationUser")]
         public string UserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        
+        [Required]
+        public AssetType AssetType { get; set; }
 
         [Required]
         public int AssetId { get; set; }
-
-        [Required]
-        public string Ticker { get; set; }
 
         [Required]
         public decimal Quantity { get; set; }
@@ -42,6 +42,11 @@ namespace Invetker.Models
         public string Notes { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+    }
+
+    public class TestModel
+    {
+        public string Symbol { get; set; }
     }
 
     public class TransactionAddViewModel
@@ -49,7 +54,10 @@ namespace Invetker.Models
         public string UserId { get; set; }
 
         [Required]
-        public string Ticker { get; set; }
+        public AssetType AssetType { get; set; }
+
+        [Required]
+        public int AssetId { get; set; }
 
         [Required]
         public decimal Quantity { get; set; }
@@ -70,12 +78,33 @@ namespace Invetker.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        StocksModels Stocks { get; set; }
+
     }
 
     public class TransactionEditViewModel : TransactionAddViewModel
     {
         [Key]
         public int Id { get; set; }
+    }
+
+    public class TransactionViewModel
+    {
+        public int Id { get; set; }
+
+        public AssetType AssetType { get; set; }
+
+        public string Symbol { get; set; }
+
+        public ActionType Action { get; set; }
+
+        public decimal Quantity { get; set; }
+
+        public decimal Price { get; set; }
+
+        public decimal Fee { get; set; }
+
+        public DateTime DateTime { get; set; }
     }
 
     public enum ActionType

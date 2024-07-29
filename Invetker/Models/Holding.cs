@@ -11,8 +11,7 @@ namespace Invetker.Models
 {
     public class HoldingViewModel
     {
-        [Required]
-        public string Ticker { get; set; }
+        public string Symbol { get; set; }
 
         [Required]
         public decimal Position { get; set; }
@@ -45,7 +44,7 @@ namespace Invetker.Models
         public int No { get; set; }
 
         [Required]
-        public string Ticker { get; set; }
+        public string Symbol { get; set; }
 
         [Required]
         public string Icon { get; set; }
