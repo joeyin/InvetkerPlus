@@ -20,8 +20,6 @@ namespace Invetker
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            // Remove XML formatter
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

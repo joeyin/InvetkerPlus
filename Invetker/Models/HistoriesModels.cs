@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Invetker.Models
 {
-    public class PricesModels
+    public class HistoriesModels
     {
         [Key]
         public int Id { get; set; }
@@ -21,16 +21,10 @@ namespace Invetker.Models
         public decimal Price { get; set; }
 
         [Required]
+        public int Volume {  get; set; }
+
+        [Required]
         public DateTime Timestamp { get; set; }
     }
-    public class PricesModelDto
-    {
-        public int Id { get; set; }
 
-        public int AssetId { get; set; }
-
-        public decimal Price { get; set; }
-
-        public DateTime Timestamp { get; set; }
-    }
 }

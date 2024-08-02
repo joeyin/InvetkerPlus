@@ -218,6 +218,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AssetsController.cs" />
     <Compile Include="Controllers\StockController.cs" />
     <Compile Include="Controllers\CryptocurrenciesModelsController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
@@ -250,6 +251,22 @@
     <Compile Include="Migrations\202407290109090_UpdateCryptocurrencies.Designer.cs">
       <DependentUpon>202407290109090_UpdateCryptocurrencies.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202408021503518_histories.cs" />
+    <Compile Include="Migrations\202408021503518_histories.Designer.cs">
+      <DependentUpon>202408021503518_histories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202408021806143_UpdateDataSet.cs" />
+    <Compile Include="Migrations\202408021806143_UpdateDataSet.Designer.cs">
+      <DependentUpon>202408021806143_UpdateDataSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202408021914180_updateDataSet2.cs" />
+    <Compile Include="Migrations\202408021914180_updateDataSet2.Designer.cs">
+      <DependentUpon>202408021914180_updateDataSet2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202408021919274_updateDataSet3.cs" />
+    <Compile Include="Migrations\202408021919274_updateDataSet3.Designer.cs">
+      <DependentUpon>202408021919274_updateDataSet3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CryptocurrenciesModels.cs" />
@@ -260,7 +277,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Holding.cs" />
     <Compile Include="Models\PolygonIO.cs" />
-    <Compile Include="Models\PricesModels.cs" />
+    <Compile Include="Models\HistoriesModels.cs" />
     <Compile Include="Models\TransactionsModels.cs" />
     <Compile Include="Models\PerformancesModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -358,6 +375,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Images\" />
+    <Folder Include="Views\Assert\" />
     <Folder Include="Views\CryptocurrenciesModels\" />
     <Folder Include="Views\Position\" />
     <Folder Include="Views\StocksData\" />
@@ -405,6 +423,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202407290109090_UpdateCryptocurrencies.resx">
       <DependentUpon>202407290109090_UpdateCryptocurrencies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408021503518_histories.resx">
+      <DependentUpon>202408021503518_histories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408021806143_UpdateDataSet.resx">
+      <DependentUpon>202408021806143_UpdateDataSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408021914180_updateDataSet2.resx">
+      <DependentUpon>202408021914180_updateDataSet2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202408021919274_updateDataSet3.resx">
+      <DependentUpon>202408021919274_updateDataSet3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -23,7 +23,7 @@ namespace Invetker.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var stocks = await response.Content.ReadAsAsync<List<StocksModels>>();
-                return View(stocks);  // Assume this returns a view that displays stocks
+                return View(stocks); 
             }
             else
             {

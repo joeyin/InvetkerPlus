@@ -16,7 +16,7 @@ namespace Invetker.Models
 
     public enum AssetType
     {
-        Stock,
         Crypto,
+        Stock
     }
 }

@@ -18,9 +18,9 @@
                     'https://s2.coinmarketcap.com/static/img/coins/64x64/1.png', 
                     'BTC', 
                     'Bitcoin (BTC) is a consensus network that enables a new payment system and a completely digital currency. Powered by its users, it is a peer to peer payment network that requires no central authority to operate. On October 31st, 2008, an individual or group of individuals operating under the pseudonym ""Satoshi Nakamoto"" published the Bitcoin Whitepaper and described it as: a purely peer-to-peer version of electronic cash would allow online payments to be sent directly from one party to another without going through a financial institution.', 
-                    100000,
-                    100000,
-                    100000,
+                    200000,
+                    200000,
+                    200000,
                     CURRENT_TIMESTAMP
                 );
                 SET @CryptoId = SCOPE_IDENTITY();

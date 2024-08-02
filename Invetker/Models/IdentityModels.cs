@@ -36,7 +36,7 @@ namespace Invetker.Models
 
         public DbSet<CryptocurrenciesModels> Cryptocurrencies { get; set; }
 
-        public DbSet<PricesModels> Prices { get; set; }
+        public DbSet<HistoriesModels> Histories { get; set; }
 
         public DbSet<NewsModels> News { get; set; }
 
