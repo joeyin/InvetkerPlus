@@ -27,4 +27,14 @@ namespace Invetker.Models
         public DateTime Timestamp { get; set; }
     }
 
+    public class HistoriesDto
+    {
+        public int Id { get; set; }
+
+        public int AssetId { get; set; }
+        public decimal Price { get; set; }
+        public int Volume { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
+
 }

@@ -59,26 +59,26 @@
                 <thead>
                     <tr>
                         <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Volume</th>
+                        <th>Change %</th>
                         <th>Market Cap</th>
-                        <th>Circulating Supply</th>
-                        <th>Max Supply</th>
-                        <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @if (ViewData["CryptocurrenciesModels"] != null)
+                    @if (ViewData["TopCryptocurrencies"] != null)
                     {
-                        var cryptocurrencies = ViewData["CryptocurrenciesModels"] as IEnumerable<Invetker.Models.CryptocurrenciesModels>;
-                        if (cryptocurrencies != null && cryptocurrencies.Any())
+                        var topCryptocurrencies = ViewData["TopCryptocurrencies"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (topCryptocurrencies != null && topCryptocurrencies.Any())
                         {
-                            foreach (var item in cryptocurrencies)
+                            foreach (var item in topCryptocurrencies)
                             {
                                 <tr>
                                     <td>@item.Symbol</td>
-                                    <td>@item.MarketCap</td>
-                                    <td>@item.CirculatingSupply</td>
-                                    <td>@item.MaxSupply</td>
-                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
+                                    <td>$@item.Price</td>
+                                    <td>@item.Volume</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@String.Format("{0:n0}", item.MarketCap)</td>
                                 </tr>
                             }
                         }
@@ -87,6 +87,116 @@
                             <tr>
                                 <td colspan="5">No data available</td>
                             </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+    <!-- Row for Stock Tables -->
+    <div class="row">
+        <!-- Stocks: Most Active -->
+        <div class="col-md-4">
+            <h2>Stocks: Most Active</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>D. Vol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["MostActiveStocks"] != null)
+                    {
+                        var mostActiveStocks = ViewData["MostActiveStocks"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (mostActiveStocks != null && mostActiveStocks.Any())
+                        {
+                            foreach (var item in mostActiveStocks)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>$@String.Format("{0:n0}", item.DollarVolume)</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Stocks: Top Gainers -->
+        <div class="col-md-4">
+            <h2>Stocks: Top Gainers</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>D. Vol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["TopGainerStocks"] != null)
+                    {
+                        var topGainerStocks = ViewData["TopGainerStocks"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (topGainerStocks != null && topGainerStocks.Any())
+                        {
+                            foreach (var item in topGainerStocks)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>$@String.Format("{0:n0}", item.DollarVolume)</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Stocks: Top Volume -->
+        <div class="col-md-4">
+            <h2>Stocks: Top Volume</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>Vol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["TopVolumeStocks"] != null)
+                    {
+                        var topVolumeStocks = ViewData["TopVolumeStocks"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (topVolumeStocks != null && topVolumeStocks.Any())
+                        {
+                            foreach (var item in topVolumeStocks)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>@item.Volume</td>
+                                </tr>
+                            }
                         }
                     }
                 </tbody>
@@ -94,86 +204,10 @@
         </div>
     </div>
 
-    <!-- Second Row: Stocks and Crypto Tables -->
+
+    <!-- Row for Crypto Tables -->
     <div class="row">
-        <div class="col-md-4">
-            <h2>Stocks: Most Active</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                        <th>Logo</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewData["StocksModels"] != null)
-                    {
-                        var stocks = ViewData["StocksModels"] as IEnumerable<Invetker.Models.StocksModels>;
-                        if (stocks != null && stocks.Any())
-                        {
-                            foreach (var item in stocks)
-                            {
-                                <tr>
-                                    <td>@item.Name</td>
-                                    <td>@item.Symbol</td>
-                                    <td>@item.Description</td>
-                                    <td><img src="@item.Logo" alt="@item.Name Logo" style="width: 50px;" /></td>
-                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="5">No data available</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-4">
-            <h2>Stocks: Top Gainers</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Symbol</th>
-                        <th>Description</th>
-                        <th>Logo</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (ViewData["StocksModels"] != null)
-                    {
-                        var stocks = ViewData["StocksModels"] as IEnumerable<Invetker.Models.StocksModels>;
-                        if (stocks != null && stocks.Any())
-                        {
-                            foreach (var item in stocks)
-                            {
-                                <tr>
-                                    <td>@item.Name</td>
-                                    <td>@item.Symbol</td>
-                                    <td>@item.Description</td>
-                                    <td><img src="@item.Logo" alt="@item.Name Logo" style="width: 50px;" /></td>
-                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
-                                </tr>
-                            }
-                        }
-                        else
-                        {
-                            <tr>
-                                <td colspan="5">No data available</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>
+        <!-- Cryptos: Most Active -->
         <div class="col-md-4">
             <h2>Crypto: Most Active</h2>
             <table class="table">
@@ -183,35 +217,102 @@
                         <th>Price</th>
                         <th>Change %</th>
                         <th>Change</th>
-                        <th>VOL</th>
+                        <th>D. Vol</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @if (ViewData["MostActiveCryptos"] != null)
+                    {
+                        var mostActiveCryptos = ViewData["MostActiveCryptos"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (mostActiveCryptos != null && mostActiveCryptos.Any())
+                        {
+                            foreach (var item in mostActiveCryptos)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>$@String.Format("{0:n0}", item.DollarVolume)</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cryptos: Top Gainers -->
+        <div class="col-md-4">
+            <h2>Crypto: Top Gainers</h2>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>DOGE</td>
-                        <td>$0.12</td>
-                        <td>-0.8%</td>
-                        <td>-$0.001</td>
-                        <td>500M</td>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>D. Vol</th>
                     </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["TopGainerCryptos"] != null)
+                    {
+                        var topGainerCryptos = ViewData["TopGainerCryptos"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (topGainerCryptos != null && topGainerCryptos.Any())
+                        {
+                            foreach (var item in topGainerCryptos)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>$@String.Format("{0:n0}", item.DollarVolume)</td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cryptos: Top Volume -->
+        <div class="col-md-4">
+            <h2>Crypto: Top Volume</h2>
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>SOL</td>
-                        <td>$22</td>
-                        <td>+1.2%</td>
-                        <td>+$0.26</td>
-                        <td>200M</td>
+                        <th>Symbol</th>
+                        <th>Price</th>
+                        <th>Change %</th>
+                        <th>Change</th>
+                        <th>Vol</th>
                     </tr>
-                    <tr>
-                        <td>ADA</td>
-                        <td>$0.85</td>
-                        <td>-1.1%</td>
-                        <td>-$0.01</td>
-                        <td>300M</td>
-                    </tr>
+                </thead>
+                <tbody>
+                    @if (ViewData["TopVolumeCryptos"] != null)
+                    {
+                        var topVolumeCryptos = ViewData["TopVolumeCryptos"] as IEnumerable<Invetker.Models.AssetActivityDto>;
+                        if (topVolumeCryptos != null && topVolumeCryptos.Any())
+                        {
+                            foreach (var item in topVolumeCryptos)
+                            {
+                                <tr>
+                                    <td>@item.Symbol</td>
+                                    <td>$@item.Price</td>
+                                    <td>@String.Format("{0:P2}", item.PriceChangeP)</td>
+                                    <td>$@item.PriceChange</td>
+                                    <td>@item.Volume</td>
+                                </tr>
+                            }
+                        }
+                    }
                 </tbody>
             </table>
         </div>
     </div>
+
 
     <!-- Third Row: News Blocks -->
     <div class="row">
