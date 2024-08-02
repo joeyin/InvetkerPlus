@@ -1,49 +1,31 @@
-﻿using Invetker.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using System.Web.Http.Description;
+using Invetker.Models;
 
 namespace Invetker.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/Stock")]
     public class StockController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
         /// <summary>
         /// Returns all stocks in the system.
         /// </summary>
         /// <returns>
         /// HEADER: 200 (OK)
-        /// CONTENT: all transactions in the database.
+        /// CONTENT: all stocks in the database.
         /// </returns>
         /// <example>
-        /// GET: api/Stock/list
+        /// GET: api/Stock/List
         /// </example>
         [HttpGet]
-        [ResponseType(typeof(StocksModels))]
+        [Route("List")]
         public IHttpActionResult List()
         {
-            List<StocksModels> Stocks = db.Stocks.ToList();
-            return Ok(Stocks);
+            var stocks = db.Stocks.ToList();
+            return Ok(stocks);  // This will serialize the list of stocks to JSON
         }
-
-        // GET: StocksModelsController/Details/5
-        /*
-        public async Task<IHttpActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
-            }
-            var stock = await _context.Stocks.FindAsync(id);
-            if (stock == null)
-            {
-                return HttpNotFound();
-            }
-            return View(stock);
-        }
-        */
     }
 }
+

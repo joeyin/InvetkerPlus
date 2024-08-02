@@ -23,4 +23,14 @@ namespace Invetker.Models
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
+
+    public class StocksModelsDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Symbol { get; set; }
+        public string Description { get; set; }
+        public string Logo { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
 }

@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Invetker.Models.CryptocurrenciesModelsDto>
-
-@{
+﻿@{
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
     ViewBag.Title = "Markets";
 }
@@ -70,7 +68,7 @@
                 <tbody>
                     @if (ViewData["CryptocurrenciesModels"] != null)
                     {
-                        var cryptocurrencies = ViewData["CryptocurrenciesModels"] as IEnumerable<Invetker.Models.CryptocurrenciesModelsDto>;
+                        var cryptocurrencies = ViewData["CryptocurrenciesModels"] as IEnumerable<Invetker.Models.CryptocurrenciesModels>;
                         if (cryptocurrencies != null && cryptocurrencies.Any())
                         {
                             foreach (var item in cryptocurrencies)
@@ -80,7 +78,7 @@
                                     <td>@item.MarketCap</td>
                                     <td>@item.CirculatingSupply</td>
                                     <td>@item.MaxSupply</td>
-                                    <td>@item.CreatedAt</td>
+                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
                                 </tr>
                             }
                         }
@@ -103,35 +101,37 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Name</th>
                         <th>Symbol</th>
-                        <th>Price</th>
-                        <th>Change %</th>
-                        <th>Change</th>
-                        <th>VOL</th>
+                        <th>Description</th>
+                        <th>Logo</th>
+                        <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>TSLA</td>
-                        <td>$620</td>
-                        <td>-0.8%</td>
-                        <td>-$5</td>
-                        <td>5M</td>
-                    </tr>
-                    <tr>
-                        <td>AMZN</td>
-                        <td>$140</td>
-                        <td>+0.5%</td>
-                        <td>+$0.7</td>
-                        <td>2M</td>
-                    </tr>
-                    <tr>
-                        <td>APPL</td>
-                        <td>$170</td>
-                        <td>+0.3%</td>
-                        <td>+$0.5</td>
-                        <td>3M</td>
-                    </tr>
+                    @if (ViewData["StocksModels"] != null)
+                    {
+                        var stocks = ViewData["StocksModels"] as IEnumerable<Invetker.Models.StocksModels>;
+                        if (stocks != null && stocks.Any())
+                        {
+                            foreach (var item in stocks)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Symbol</td>
+                                    <td>@item.Description</td>
+                                    <td><img src="@item.Logo" alt="@item.Name Logo" style="width: 50px;" /></td>
+                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">No data available</td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>
@@ -140,35 +140,37 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Name</th>
                         <th>Symbol</th>
-                        <th>Price</th>
-                        <th>Change %</th>
-                        <th>Change</th>
-                        <th>VOL</th>
+                        <th>Description</th>
+                        <th>Logo</th>
+                        <th>Created At</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>BIDU</td>
-                        <td>$142</td>
-                        <td>+3.5%</td>
-                        <td>+$4.9</td>
-                        <td>1M</td>
-                    </tr>
-                    <tr>
-                        <td>NFLX</td>
-                        <td>$352</td>
-                        <td>+2.8%</td>
-                        <td>+$9.6</td>
-                        <td>2M</td>
-                    </tr>
-                    <tr>
-                        <td>DIS</td>
-                        <td>$105</td>
-                        <td>+1.9%</td>
-                        <td>+$2</td>
-                        <td>1.5M</td>
-                    </tr>
+                    @if (ViewData["StocksModels"] != null)
+                    {
+                        var stocks = ViewData["StocksModels"] as IEnumerable<Invetker.Models.StocksModels>;
+                        if (stocks != null && stocks.Any())
+                        {
+                            foreach (var item in stocks)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td>@item.Symbol</td>
+                                    <td>@item.Description</td>
+                                    <td><img src="@item.Logo" alt="@item.Name Logo" style="width: 50px;" /></td>
+                                    <td>@item.CreatedAt.ToString("MM/dd/yyyy")</td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5">No data available</td>
+                            </tr>
+                        }
+                    }
                 </tbody>
             </table>
         </div>

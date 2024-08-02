@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace Invetker
@@ -19,6 +20,8 @@ namespace Invetker
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            // Remove XML formatter
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
         }
     }
 }

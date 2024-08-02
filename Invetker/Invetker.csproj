@@ -225,6 +225,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\HoldingController.cs" />
     <Compile Include="Controllers\MarketsController.cs" />
+    <Compile Include="Controllers\StocksDataController.cs" />
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -359,6 +360,7 @@
     <Folder Include="Images\" />
     <Folder Include="Views\CryptocurrenciesModels\" />
     <Folder Include="Views\Position\" />
+    <Folder Include="Views\StocksData\" />
     <Folder Include="Views\Transaction\" />
   </ItemGroup>
   <ItemGroup>
