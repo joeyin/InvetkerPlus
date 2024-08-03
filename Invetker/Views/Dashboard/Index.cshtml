@@ -96,7 +96,7 @@
                             <td>@String.Format("{0:#,##0.##}", transaction.Price)</td>
                             <td>@String.Format("{0:#,##0.##}", transaction.Fee)</td>
                             <td>@(@String.Format("{0:#,##0.##}", (@transaction.Price * @transaction.Quantity) + @transaction.Fee))</td>
-                            <td>@transaction.DateTime</td>
+                            <td>@transaction.Datetime</td>
                         </tr>
                     }
                 </tbody>

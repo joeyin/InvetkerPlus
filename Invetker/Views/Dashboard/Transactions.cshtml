@@ -25,7 +25,7 @@
         </ol>
     </nav>
     <a title="Add Transaction" class="btn btn-sm btn-outline-secondary d-flex d-md-none align-items-center"
-       href="transactions.php#add">
+       href="/Dashboard/Transactions#add">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
             <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
         </svg>
@@ -55,8 +55,23 @@
         </div>
 
         <div class="col-12 col-xl-3 d-flex gap-3">
-            <label class="col-form-label" for="Ticker">Symbol</label>
-            <select id="Ticker" name="Ticker" class="Ticker w-100"></select>
+            @Html.LabelFor(m => m.AssetType, "Type", new { @class = "col-form-label" })
+            @Html.DropDownListFor(
+            o => o.AssetType,
+            Enum.GetValues(typeof(AssetType)).Cast<AssetType>
+                ().Select(x => new SelectListItem
+                {
+                    Text = x.ToString(),
+                    Value = ((int)x).ToString(),
+                    Selected = x == AssetType.Stock
+                }),
+                new { @class = "form-control asset-type", required = "true" }
+            )
+        </div>
+
+        <div class="col-12 col-xl-3 d-flex gap-3">
+            @Html.LabelFor(m => m.AssetId, "Symbol", new { @class = "col-form-label" })
+            <input id="Ticker" class="Ticker w-100" name="AssetId" required>
         </div>
 
         <div class="col-auto">
@@ -96,7 +111,7 @@
                             <td>@String.Format("{0:#,##0.##}", transaction.Price)</td>
                             <td>@String.Format("{0:#,##0.##}", transaction.Fee)</td>
                             <td>@(@String.Format("{0:#,##0.##}", (@transaction.Price * @transaction.Quantity) + @transaction.Fee))</td>
-                            <td>@transaction.DateTime</td>
+                            <td>@transaction.Datetime</td>
                             <td>
                                 <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-edit text-secondary">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">

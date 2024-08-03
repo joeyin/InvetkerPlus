@@ -71,7 +71,7 @@ namespace Invetker.Controllers
                     Quantity = ta.Quantity,
                     Price = ta.Price,
                     Fee = ta.Fee,
-                    DateTime = ta.Datetime
+                    Datetime = ta.Datetime
                 }
             )
             .ToList();
@@ -107,7 +107,7 @@ namespace Invetker.Controllers
                     Quantity = ta.Quantity,
                     Price = ta.Price,
                     Fee = ta.Fee,
-                    DateTime = ta.Datetime
+                    Datetime = ta.Datetime
                 }
             )
             .ToList();
@@ -115,7 +115,7 @@ namespace Invetker.Controllers
             List<TransactionViewModel> combinedTransactions = StockTransactions
                 .Cast<TransactionViewModel>()
                 .Union(CryptoTransactions.Cast<TransactionViewModel>())
-                .OrderByDescending(t => t.DateTime)
+                .OrderByDescending(t => t.Datetime)
                 .ToList();
 
             return Ok(combinedTransactions);
@@ -197,8 +197,6 @@ namespace Invetker.Controllers
                 return Content(HttpStatusCode.NotFound, "");
             }
 
-            Row.AssetType = transaction.AssetType;
-            Row.AssetId = transaction.AssetId;
             Row.Quantity = transaction.Quantity;
             Row.Action = transaction.Action;
             Row.Price = transaction.Price;
@@ -225,15 +223,32 @@ namespace Invetker.Controllers
         /// GET: api/Transaction/1
         /// </example>
         [Route("api/Transaction/{id}")]
-        [ResponseType(typeof(TransactionsModels))]
+        [ResponseType(typeof(TransactionViewModel))]
         [HttpGet]
         public IHttpActionResult Find(int id)
         {
             string userId = User.Identity.GetUserId();
-            TransactionsModels Row = db.Transactions.Where(t => t.Id == id).Where(t => t.UserId == userId).FirstOrDefault();
-            TransactionsModels Transaction = new TransactionsModels();
-
-            Debug.WriteLine(666);
+            var Row = db.Transactions
+                .Where(t => t.Id == id)
+                .Where(t => t.UserId == userId)
+                .Join(
+                    db.Assets,
+                    t => t.AssetId,
+                    asset => asset.AssetId,
+                    (t, asset) => new {
+                        t.Id,
+                        t.AssetId,
+                        t.Quantity,
+                        t.Action,
+                        t.Price,
+                        t.Fee,
+                        t.Datetime,
+                        t.Notes,
+                        t.CreatedAt,
+                        asset.SymbolId,
+                        AssetType = asset.Type
+                    }
+                ).FirstOrDefault();
 
             if (Row == null)
             {
@@ -241,19 +256,30 @@ namespace Invetker.Controllers
                 return Content(HttpStatusCode.NotFound, "");
             }
 
-            Transaction = new TransactionsModels
+            TransactionViewModel Transaction = new TransactionViewModel();
+            Transaction = new TransactionViewModel
             {
                 AssetId = Row.AssetId,
                 Quantity = Row.Quantity,
                 Action = Row.Action,
+                AssetType = Row.AssetType,
                 Price = Row.Price,
                 Fee = Row.Fee,
                 Datetime = Row.Datetime,
                 Notes = Row.Notes,
                 CreatedAt = Row.CreatedAt,
             };
-            Debug.WriteLine(666);
-            return Ok();
+
+            if (Row.AssetType == AssetType.Crypto)
+            {
+                //Transaction.Symbol = "123";
+                Transaction.Symbol = db.Cryptocurrencies.Where(c => c.Id == Row.SymbolId).Select(s => s.Symbol).FirstOrDefault();
+            } else
+            {
+                Transaction.Symbol = db.Stocks.Where(c => c.Id == Row.SymbolId).Select(s => s.Symbol).FirstOrDefault();
+            }
+
+            return Ok(Transaction);
         }
 
         /// <summary>

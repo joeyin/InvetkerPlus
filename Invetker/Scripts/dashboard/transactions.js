@@ -1,4 +1,4 @@
-﻿$(function () {
+﻿async function onLoad() {
     var start = moment().subtract(7, 'days');
     var end = moment();
     $('input[name="Daterange"]').daterangepicker({
@@ -53,22 +53,7 @@
                 data: Object.fromEntries(new FormData(e.target))
             }).done(function () {
                 transactionAddModal.hide();
-                setTimeout(() => location.reload(), 666);
-            });
-        }
-    }
-
-    document.querySelector("form[name='import']").onsubmit = function (e) {
-        e.preventDefault();
-        this.classList.add('was-validated');
-
-        if (this.checkValidity()) {
-            $.ajax({
-                method: "POST",
-                url: "/api/transaction/import",
-                data: Object.fromEntries(new FormData(e.target))
-            }).done(function () {
-                transactionAddModal.hide();
+                setTimeout(() => location.reload(), 888);
             });
         }
     }
@@ -93,7 +78,8 @@
             method: "GET",
             url: `/api/transaction/${id}`,
         }).done(function (res) {
-            $("form[name='edit'] input[name='Ticker']").val(res.Ticker);
+            $("form[name='edit'] select[name='AssetType']").val(res.AssetType);
+            $("form[name='edit'] input[name='AssetId']").val(res.Symbol);
             $("form[name='edit'] input[name='Quantity']").val(res.Quantity);
             $("form[name='edit'] select[name='Action']").val(res.Action);
             $("form[name='edit'] input[name='Price']").val(res.Price);
@@ -121,24 +107,40 @@
     }
 
 
-    $.ajax({
-        url: '/api/stock/list',
-        type: 'GET',
-        dataType: 'json',
-        success: function (res) {
-            $(".Ticker").selectize({
-                plugins: ["restore_on_backspace", "clear_button"],
-                delimiter: " - ",
-                persist: false,
-                maxItems: 1,
-                valueField: "AssetId",
-                labelField: "Symbol",
-                searchField: ['Name', 'Symbol'],
-                options: res,
-            });
+    const stocks = await (await fetch("/api/stock/list")).json();
+    const cryptocurrencies = await (await fetch("/api/cryptocurrencies/list")).json();
 
+    const selectizeConfig = {
+        plugins: ["restore_on_backspace", "clear_button"],
+        delimiter: " - ",
+        persist: false,
+        maxItems: 1,
+        valueField: "AssetId",
+        labelField: "Symbol",
+        searchField: ['Name', 'Symbol'],
+        options: stocks,
+    }
+
+    const addSelector = $("form[name='add'] .Ticker").selectize(selectizeConfig);
+    $("form[name='add'] .asset-type").on("change", function (e) {
+        addSelector[0].selectize.clearOptions();
+        if (e.currentTarget.value == 0) {
+            addSelector[0].selectize.addOption(cryptocurrencies);
+        } else {
+            addSelector[0].selectize.addOption(stocks);
         }
-    });
+    })
 
+    const searchSelector = $("form[name='search'] .Ticker").selectize(selectizeConfig);
+    $("form[name='search'] .asset-type").on("change", function (e) {
+        searchSelector[0].selectize.clearOptions();
+        if (e.currentTarget.value == 0) {
+            searchSelector[0].selectize.addOption(cryptocurrencies);
+        } else {
+            searchSelector[0].selectize.addOption(stocks);
+        }
+    })
 
-});
+};
+
+window.onload = onLoad;

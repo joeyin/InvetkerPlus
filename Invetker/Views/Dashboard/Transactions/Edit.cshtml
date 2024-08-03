@@ -17,6 +17,28 @@
                             @Html.AntiForgeryToken()
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="mb-3">
+                                @Html.LabelFor(m => m.AssetType, "Type", new { @class = "form-label required" })
+                                @Html.DropDownListFor(
+                                o => o.AssetType,
+                                Enum.GetValues(typeof(AssetType)).Cast<AssetType>
+                                    ().Select(x => new SelectListItem
+                                        {
+                                        Text = x.ToString(),
+                                        Value = ((int)x).ToString(),
+                                        Selected = x == AssetType.Stock
+                                    }),
+                                    new { @class = "form-control asset-type", required = "true", disabled = "true" }
+                                )
+                                @Html.ValidationMessageFor(m => m.AssetType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="mb-3">
+                                <div class="control-group">
+                                    @Html.LabelFor(m => m.AssetId, "Symbol", new { @class = "form-label required" })
+                                    <input id="Ticker" class="Ticker form-control" name="AssetId" disabled required>
+                                    @Html.ValidationMessageFor(m => m.AssetType, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="mb-3">
                                 @Html.LabelFor(m => m.Quantity, new { @class = "form-label required" })
                                 @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control", type = "number", required = "true", step = "0.001" })
                                 @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
