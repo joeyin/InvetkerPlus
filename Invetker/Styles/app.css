@@ -25,9 +25,9 @@ body {
     color: rgb(var(--bs-secondary-rgb));
 }
 
-body * {
-    font-family: Plus Jakarta Display, sans-serif;
-}
+    body * {
+        font-family: Plus Jakarta Display, sans-serif;
+    }
 
 @media (min-width: 768px) {
     body {
@@ -54,10 +54,10 @@ a {
     transition-duration: .3s;
 }
 
-a.active,
-a:hover {
-    color: rgb(var(--light));
-}
+    a.active,
+    a:hover {
+        color: rgb(var(--light));
+    }
 
 .form-control:focus {
     border-color: rgb(var(--bs-warning-rgb));
@@ -104,9 +104,9 @@ form label {
     border-color: transparent;
 }
 
-.btn-transparent:hover {
-    background-color: rgb(var(--gray150));
-}
+    .btn-transparent:hover {
+        background-color: rgb(var(--gray150));
+    }
 
 .modal-open .modal-backdrop {
     backdrop-filter: blur(1.68px);
@@ -130,27 +130,27 @@ form label {
     padding: 15px 20px;
 }
 
-.modal-dialog.with-nav-tab .nav-link:hover,
-.modal-dialog.with-nav-tab .nav-link.active {
-    border-color: rgb(var(--bs-warning-rgb));
-    color: rgb(var(--bs-warning-rgb));
-}
+    .modal-dialog.with-nav-tab .nav-link:hover,
+    .modal-dialog.with-nav-tab .nav-link.active {
+        border-color: rgb(var(--bs-warning-rgb));
+        color: rgb(var(--bs-warning-rgb));
+    }
 
 .modal-dialog.with-nav-tab .modal-footer > * {
     margin-right: .75rem;
 }
 
-.modal-dialog.with-nav-tab .modal-footer > *:last-child {
-    margin: 0;
-}
+    .modal-dialog.with-nav-tab .modal-footer > *:last-child {
+        margin: 0;
+    }
 
 .btn-icon.btn-outline-secondary {
     fill: rgb(var(--bs-secondary-rgb));
 }
 
-.btn-icon.btn-outline-secondary:hover {
-    fill: rgb(var(--bs-light-rgb));
-}
+    .btn-icon.btn-outline-secondary:hover {
+        fill: rgb(var(--bs-light-rgb));
+    }
 
 .custom-file-button input[type=file]::file-selector-button,
 .custom-file-button input[type=file]::-webkit-file-upload-button {

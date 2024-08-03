@@ -19,6 +19,19 @@
         }
     }
 
+    document.getElementById("ConfirmPassword").addEventListener("input", function () {
+        const password = document.getElementById("Password").value.trim();
+        const confirmPassword = this.value.trim();
+
+        if (password === confirmPassword) {
+            this.setCustomValidity('');
+            document.querySelector("#ConfirmPassword+.custom-invalid-feedback").style.display = 'none';
+        } else {
+            this.setCustomValidity('Passwords do not match');
+            document.querySelector("#ConfirmPassword+.custom-invalid-feedback").style.display = 'block';
+        }
+    });
+
     document.querySelector("form[name='register']").onsubmit = function (e) {
         this.classList.add('was-validated');
 

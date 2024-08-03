@@ -57,7 +57,7 @@ namespace Invetker.Controllers
 
         [HttpGet]
         [Route("api/Assets/GetLatestPrice/{assetId}")]
-        private decimal GetLatestPrice(int assetId)
+        public decimal GetLatestPrice(int assetId)
         {
             var latestPrice = db.Histories
                 .Where(h => h.AssetId == assetId)

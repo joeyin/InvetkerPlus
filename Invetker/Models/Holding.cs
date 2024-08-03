@@ -19,6 +19,8 @@ namespace Invetker.Models
         [Required]
         public decimal Amount { get; set; }
 
+        public int ?AssetId { get; set; }
+
         [Required]
         public decimal AvgPrice { get; set; }
 

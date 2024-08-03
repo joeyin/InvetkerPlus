@@ -92,6 +92,10 @@ namespace Invetker.Models
     {
         public int Id { get; set; }
 
+        public int AssetId { get; set; }
+
+        public int ?SymbolId { get; set; }
+
         public AssetType AssetType { get; set; }
 
         public string Symbol { get; set; }

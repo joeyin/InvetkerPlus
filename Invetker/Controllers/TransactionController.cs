@@ -1,4 +1,5 @@
 ﻿using Invetker.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using System;
@@ -18,6 +19,12 @@ namespace Invetker.Controllers
     public class TransactionController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private string userId;
+
+        public TransactionController()
+        {
+            userId = User.Identity.GetUserId();
+        }
 
         /// <summary>
         /// Returns all transactions in the system by the current user.
@@ -33,47 +40,77 @@ namespace Invetker.Controllers
         [ResponseType(typeof(TransactionsModels))]
         public IHttpActionResult List()
         {
-            string userId = User.Identity.GetUserId();
-
             List<TransactionViewModel> StockTransactions = db.Transactions
-                .Where(t => t.UserId == userId && t.AssetType == AssetType.Stock)
-                .Join(
-                    db.Stocks,
-                    t => t.AssetId,
-                    s => s.Id,
-                    (t, s) => new TransactionViewModel
-                    {
-                        Id = t.Id,
-                        AssetType = AssetType.Stock,
-                        Symbol = s.Symbol,
-                        Action = t.Action,
-                        Quantity = t.Quantity,
-                        Price = t.Price,
-                        Fee = t.Fee,
-                        DateTime = t.Datetime
-                    }
-                 )
-                .ToList();
+            .Where(t => t.UserId == userId && t.AssetType == AssetType.Stock)
+            .Join(
+                db.Assets,
+                t => t.AssetId,
+                asset => asset.AssetId,
+                (t, asset) => new {
+                    t.Id,
+                    asset.SymbolId,
+                    asset.AssetId,
+                    t.Datetime,
+                    t.Action,
+                    t.Quantity,
+                    t.Price,
+                    t.Fee
+                }
+            )
+            .Join(
+                db.Stocks,
+                ta => ta.SymbolId,
+                s => s.Id,
+                (ta, s) => new TransactionViewModel
+                {
+                    Id = ta.Id,
+                    AssetId = ta.AssetId,
+                    AssetType = AssetType.Stock,
+                    Symbol = s.Symbol,
+                    Action = ta.Action,
+                    Quantity = ta.Quantity,
+                    Price = ta.Price,
+                    Fee = ta.Fee,
+                    DateTime = ta.Datetime
+                }
+            )
+            .ToList();
 
             List<TransactionViewModel> CryptoTransactions = db.Transactions
-                .Where(t => t.UserId == userId && t.AssetType == AssetType.Crypto)
-                .Join(
-                    db.Stocks,
-                    t => t.AssetId,
-                    s => s.Id,
-                    (t, s) => new TransactionViewModel
-                    {
-                        Id = t.Id,
-                        AssetType = AssetType.Stock,
-                        Symbol = s.Symbol,
-                        Action = t.Action,
-                        Quantity = t.Quantity,
-                        Price = t.Price,
-                        Fee = t.Fee,
-                        DateTime = t.Datetime
-                    }
-                 )
-                .ToList();
+            .Where(t => t.UserId == userId && t.AssetType == AssetType.Crypto)
+            .Join(
+                db.Assets,
+                t => t.AssetId,
+                asset => asset.AssetId,
+                (t, asset) => new {
+                    t.Id,
+                    asset.SymbolId,
+                    asset.AssetId,
+                    t.Datetime,
+                    t.Action,
+                    t.Quantity,
+                    t.Price,
+                    t.Fee
+                }
+            )
+            .Join(
+                db.Stocks,
+                ta => ta.SymbolId,
+                s => s.Id,
+                (ta, s) => new TransactionViewModel
+                {
+                    Id = ta.Id,
+                    AssetId = ta.AssetId,
+                    AssetType = AssetType.Crypto,
+                    Symbol = s.Symbol,
+                    Action = ta.Action,
+                    Quantity = ta.Quantity,
+                    Price = ta.Price,
+                    Fee = ta.Fee,
+                    DateTime = ta.Datetime
+                }
+            )
+            .ToList();
 
             List<TransactionViewModel> combinedTransactions = StockTransactions
                 .Cast<TransactionViewModel>()

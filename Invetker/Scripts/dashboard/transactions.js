@@ -131,7 +131,7 @@
                 delimiter: " - ",
                 persist: false,
                 maxItems: 1,
-                valueField: "Id",
+                valueField: "AssetId",
                 labelField: "Symbol",
                 searchField: ['Name', 'Symbol'],
                 options: res,

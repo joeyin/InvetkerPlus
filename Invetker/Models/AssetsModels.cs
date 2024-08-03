@@ -50,4 +50,13 @@ namespace Invetker.Models
         public float MarketCap { get; set; }
     }
 
+    public class AssetSelector
+    {
+        public int Id { get; set; }
+
+        public string Symbol { get; set; }
+
+        public int AssetId { get; set; }
+
+    }
 }

@@ -30,6 +30,7 @@ namespace Invetker.Controllers
     public class HoldingController : ApiController
     {
         TransactionController transactionController;
+        AssetsController assetsController;
 
         private ApplicationDbContext db = new ApplicationDbContext();
         private const string URL = "https://api.polygon.io/v3/reference/tickers/";
@@ -38,6 +39,7 @@ namespace Invetker.Controllers
         public HoldingController()
         {
             transactionController = new TransactionController();
+            assetsController = new AssetsController();
         }
 
         /// <summary>
@@ -57,39 +59,35 @@ namespace Invetker.Controllers
             string userId = User.Identity.GetUserId();
 
             List<HoldingViewModel> Transactions = (transactionController.List() as OkNegotiatedContentResult<List<TransactionViewModel>>).Content
-                .GroupBy(d => new { d.Symbol, d.AssetType, d.Action })
+                .GroupBy(d => new { d.Symbol, d.AssetType, d.Action, d.AssetId })
                 .Select(d => new HoldingViewModel {
                     Symbol = d.Key.Symbol,
+                    AssetId = d.Key.AssetId,
                     Position = d.Sum(s => s.Action == ActionType.Sold ? s.Quantity * -1 : s.Quantity),
                     Amount = d.Sum(s => s.Action == ActionType.Sold ? ((s.Price * s.Quantity) + s.Fee) * -1 : (s.Price * s.Quantity) + s.Fee)
                 })
                 .ToList();
 
             List<HoldingViewModel> Holdings = Transactions
-            .GroupBy(t => t.Symbol)
+            .GroupBy(t => new { t.Symbol, t.AssetId })
             .Select(g => new HoldingViewModel()
             {
-                Symbol = g.Key,
+                Symbol = g.Key.Symbol,
+                AssetId = g.Key.AssetId,
                 Position = g.Sum(t => t.Position),
                 Amount = g.Sum(t => t.Amount)
-            }).ToList();
+            })
+            .ToList();
 
-            /*
             foreach (HoldingViewModel i in Holdings)
             {
-                var securites = await Yahoo.Symbols(i.Symbol).Fields(
-                    Field.RegularMarketPrice,
-                    Field.RegularMarketChangePercent,
-                    Field.RegularMarketChange
-                ).QueryAsync();
-                i.Price = (decimal)securites[i.Symbol][Field.RegularMarketPrice];
-                i.Change = (decimal)securites[i.Symbol][Field.RegularMarketChangePercent];
+                i.Price = assetsController.GetLatestPrice((int) i.AssetId);
+                i.Change = assetsController.CalculatePercentageChange((int) i.AssetId);
                 i.AvgPrice = i.Amount / i.Position;
-                i.DailyPL = i.Position * (decimal)securites[i.Symbol][Field.RegularMarketChange];
-                i.MarketVal = i.Position * (decimal)securites[i.Symbol][Field.RegularMarketPrice];
+                i.DailyPL = i.Position * assetsController.GetPriceChange((int)i.AssetId);
+                i.MarketVal = i.Position * assetsController.GetLatestPrice((int)i.AssetId);
                 i.UnrealizedPL = i.MarketVal - i.Amount;
             }
-            */
 
             return Ok(Holdings);
         }

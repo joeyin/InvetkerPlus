@@ -6,6 +6,7 @@
 }
 @section Styles {
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.15.2/css/selectize.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="~/Styles/selectize.default.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Styles/dashboard/transactions.css" />
 }
@@ -15,53 +16,61 @@
     <script type="text/javascript" src="~/Scripts/selectize.min.js"></script>
     <script type="text/javascript" src="~/Scripts/dashboard/transactions.js"></script>
 }
-<nav class="px-4 py-3 mb-4 breadcrumb" aria-label="breadcrumb">
-    <ol class="breadcrumb mb-0">
-        <li class="breadcrumb-item d-flex align-items-center gap-3">
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path id="transcations" d="M1.66663 5.83334H16.6666M13.3333 1.66667L17.5 5.83334L13.3333 10M18.3333 14.1667H3.33329M6.66663 10L2.49996 14.1667L6.66663 18.3333" stroke="#636566" stroke-width="1.5" />
-            </svg>
-            Transactions
-        </li>
-    </ol>
-</nav>
+
+<!-- Content start -->
+<div class="d-inline-flex breadcrumb-wrapper align-items-center justify-content-between mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+        </ol>
+    </nav>
+    <a title="Add Transaction" class="btn btn-sm btn-outline-secondary d-flex d-md-none align-items-center"
+       href="transactions.php#add">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z" />
+        </svg>
+        <span>Add Transactions</span>
+    </a>
+</div>
 
 <!-- Transaction Modal -->
 @Html.Partial("./Transactions/Add")
 @Html.Partial("./Transactions/Edit")
 
-<main class="px-4 pb-4 flex-grow-1 d-flex flex-column">
-    <form name="search" class="row mb-4 align-items-center">
-        <div class="col-auto">
-            <label class="col-form-label" for="daterange">Date Range</label>
-        </div>
-        <div class="col-auto">
-            <div class="input-group" id="daterangepicker">
-                <input type="text" class="form-control" name="Daterange" />
+<div class="container-fluid d-flex flex-grow-1 flex-column">
+    <form name="search" class="row mb-4 gap-3 align-items-center">
+        <div class="col-12 col-xl-3 d-flex gap-3">
+            <label class="col-form-label" for="daterange">Date</label>
+            <div class="input-group w-100" id="daterangepicker">
+                <input type="text" class="form-control" id="daterange" name="Daterange">
                 <span class="input-group-text bg-light">
-                    <img src="~/images/icons/calendar.svg" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="#c3c3c3"
+                              d="M12 12h5v5h-5zm7-9h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2m0 2v2H5V5zM5 19V9h14v10z" />
+                    </svg>
                 </span>
+                <input type="hidden" name="start" />
+                <input type="hidden" name="end" />
             </div>
         </div>
-        <div class="col-auto">
+
+        <div class="col-12 col-xl-3 d-flex gap-3">
             <label class="col-form-label" for="Ticker">Symbol</label>
+            <select id="Ticker" name="Ticker" class="Ticker w-100"></select>
         </div>
-        <div class="col">
-            <select id="Ticker" name="Ticker" class="Ticker"></select>
-        </div>
+
         <div class="col-auto">
-            <button type="submit" class="btn btn-warning px-4">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="Search">
-                        <path id="Search_2" d="M18.4444 20L11.4444 13C10.8889 13.4444 10.25 13.7963 9.52778 14.0556C8.80556 14.3148 8.03704 14.4444 7.22222 14.4444C5.2037 14.4444 3.49556 13.7452 2.09778 12.3467C0.700001 10.9481 0.000741329 9.24 5.8789e-07 7.22222C-0.000740153 5.20444 0.698519 3.4963 2.09778 2.09778C3.49704 0.699259 5.20519 0 7.22222 0C9.23926 0 10.9478 0.699259 12.3478 2.09778C13.7478 3.4963 14.4467 5.20444 14.4444 7.22222C14.4444 8.03704 14.3148 8.80556 14.0556 9.52778C13.7963 10.25 13.4444 10.8889 13 11.4444L20 18.4444L18.4444 20ZM7.22222 12.2222C8.61111 12.2222 9.79185 11.7363 10.7644 10.7644C11.737 9.79259 12.223 8.61185 12.2222 7.22222C12.2215 5.83259 11.7356 4.65222 10.7644 3.68111C9.79333 2.71 8.61259 2.2237 7.22222 2.22222C5.83185 2.22074 4.65148 2.70704 3.68111 3.68111C2.71074 4.65519 2.22445 5.83556 2.22222 7.22222C2.22 8.60889 2.7063 9.78963 3.68111 10.7644C4.65593 11.7393 5.8363 12.2252 7.22222 12.2222Z" fill="white" />
-                    </g>
+            <button type="submit" class="btn btn-warning px-3 text-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                          d="m21 19l-5.154-5.154a7 7 0 1 0-2 2L19 21zM5 10c0-2.757 2.243-5 5-5s5 2.243 5 5s-2.243 5-5 5s-5-2.243-5-5" />
                 </svg>
-                <span class="ms-2 text-light">Search</span>
+                <span class="ms-1">Search</span>
             </button>
         </div>
     </form>
 
-    <div id="transactions" class="card-wrap d-flex flex-column flex-grow-1">
+    <div id="transactions" class="card flex-grow-1">
         <div class="title">Transactions</div>
         <div class="content table-thead-fixed flex-grow-1">
             <table class="table table-striped table-hover table-borderless table-thead-uppercase">
@@ -90,14 +99,16 @@
                             <td>@transaction.DateTime</td>
                             <td>
                                 <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-edit text-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 1024 1024">
-                                        <path fill="currentColor" d="M832 512a32 32 0 1 1 64 0v352a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V160a32 32 0 0 1 32-32h352a32 32 0 0 1 0 64H192v640h640z" />
-                                        <path fill="currentColor" d="m469.952 554.24l52.8-7.552L847.104 222.4a32 32 0 1 0-45.248-45.248L477.44 501.44l-7.552 52.8zm422.4-422.4a96 96 0 0 1 0 135.808l-331.84 331.84a32 32 0 0 1-18.112 9.088L436.8 623.68a32 32 0 0 1-36.224-36.224l15.104-105.6a32 32 0 0 1 9.024-18.112l331.904-331.84a96 96 0 0 1 135.744 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor" d="m18.988 2.012l3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287l-3-3L8 13z" />
+                                        <path fill="currentColor"
+                                              d="M19 19H8.158c-.026 0-.053.01-.079.01c-.033 0-.066-.009-.1-.01H5V5h6.847l2-2H5c-1.103 0-2 .896-2 2v14c0 1.104.897 2 2 2h14a2 2 0 0 0 2-2v-8.668l-2 2z" />
                                     </svg>
                                 </button>
                                 <button data-id="@transaction.Id" type="button" class="btn btn-link btn-sm transaction-delete text-secondary">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 2048 2048">
-                                        <path fill="currentColor" d="M1792 384h-128v1472q0 40-15 75t-41 61t-61 41t-75 15H448q-40 0-75-15t-61-41t-41-61t-15-75V384H128V256h512V128q0-27 10-50t27-40t41-28t50-10h384q27 0 50 10t40 27t28 41t10 50v128h512zM768 256h384V128H768zm768 128H384v1472q0 26 19 45t45 19h1024q26 0 45-19t19-45zM768 1664H640V640h128zm256 0H896V640h128zm256 0h-128V640h128z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                              d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
                                     </svg>
                                 </button>
                             </td>
@@ -107,4 +118,4 @@
             </table>
         </div>
     </div>
-</main>
+</div>
