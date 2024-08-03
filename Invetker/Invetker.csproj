@@ -276,7 +276,6 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Holding.cs" />
-    <Compile Include="Models\PolygonIO.cs" />
     <Compile Include="Models\HistoriesModels.cs" />
     <Compile Include="Models\TransactionsModels.cs" />
     <Compile Include="Models\PerformancesModels.cs" />

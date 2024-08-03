@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Http.Results;
 using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace Invetker.Controllers
 {

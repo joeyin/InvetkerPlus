@@ -1,17 +1,11 @@
 ﻿using Invetker.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Web.Razor.Generator;
-using System.Web.Razor.Tokenizer.Symbols;
 
 namespace Invetker.Controllers
 {

@@ -1,28 +1,11 @@
 ﻿using Invetker.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
-using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Results;
-using System.Web.Security;
-using YahooFinanceApi;
-using static Invetker.Models.PolygonIO;
 
 namespace Invetker.Controllers
 {
@@ -33,8 +16,6 @@ namespace Invetker.Controllers
         AssetsController assetsController;
 
         private ApplicationDbContext db = new ApplicationDbContext();
-        private const string URL = "https://api.polygon.io/v3/reference/tickers/";
-        private const string API_KEY = "wnoNdymQNypqwkKazeJLbnZRUMS27Fzp";
 
         public HoldingController()
         {
@@ -63,19 +44,22 @@ namespace Invetker.Controllers
                 .Select(d => new HoldingViewModel {
                     Symbol = d.Key.Symbol,
                     AssetId = d.Key.AssetId,
+                    AssetType = d.Key.AssetType,
                     Position = d.Sum(s => s.Action == ActionType.Sold ? s.Quantity * -1 : s.Quantity),
                     Amount = d.Sum(s => s.Action == ActionType.Sold ? ((s.Price * s.Quantity) + s.Fee) * -1 : (s.Price * s.Quantity) + s.Fee)
                 })
                 .ToList();
 
             List<HoldingViewModel> Holdings = Transactions
-            .GroupBy(t => new { t.Symbol, t.AssetId })
+            .GroupBy(t => new { t.Symbol, t.AssetId, t.AssetType })
             .Select(g => new HoldingViewModel()
             {
                 Symbol = g.Key.Symbol,
                 AssetId = g.Key.AssetId,
+                AssetType = g.Key.AssetType,
                 Position = g.Sum(t => t.Position),
-                Amount = g.Sum(t => t.Amount)
+                Amount = g.Sum(t => t.Amount),
+                Price = assetsController.GetLatestPrice((int)g.Key.AssetId)
             })
             .ToList();
 
@@ -110,30 +94,35 @@ namespace Invetker.Controllers
             var holdingControllerList = await (this.List() as Task<System.Web.Http.IHttpActionResult>);
             HoldingViewModel[] Holdings = (holdingControllerList as OkNegotiatedContentResult<List<HoldingViewModel>>).Content.ToArray();
             HoldingViewModel[] Sorted = Holdings.OrderByDescending(i => i.Symbol).ToArray();
-            //HoldingViewModel[] Portfolio = Sorted.Where(i => i.UnrealizedPL > 0).ToArray();
-            HoldingViewModel[] Portfolio = Sorted.ToArray();
+            HoldingViewModel[] Portfolio = Sorted.Where(p => p.UnrealizedPL > 0).ToArray();
 
             List<TopPositionViewModel> TopPositions = new List<TopPositionViewModel>();
 
             int no = 1;
             foreach (HoldingViewModel i in Portfolio)
             {
-                // Get data from polygon.io
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri(URL);
-
-                HttpResponseMessage response = client.GetAsync(i.Symbol + "?apiKey=" + API_KEY).Result;
-                var json = await response.Content.ReadAsStringAsync();
-                var data = JObject.Parse(json);
 
                 string Description = "";
                 string Icon = "";
 
-                // Only 5 api calls per minute, if more then 5 will get error
-                if (data["results"] != null)
+                if (i.AssetType == AssetType.Crypto)
                 {
-                    Description = (string)JObject.Parse(json)["results"]["description"];
-                    Icon = (string)JObject.Parse(json)["results"]["branding"]["logo_url"] + "?apiKey=" + API_KEY;
+                    var result = db.Cryptocurrencies.Where(c => i.Symbol == c.Symbol).Select(s => new {
+                        Description = s.Description, 
+                        Logo = s.Logo, 
+                    }).FirstOrDefault();
+                    
+                    Description = result.Description;
+                    Icon = result.Logo;
+                } else
+                {
+                    var result = db.Stocks.Where(c => i.Symbol == c.Symbol).Select(s => new {
+                        Description = s.Description,
+                        Logo = s.Logo,
+                    }).FirstOrDefault();
+
+                    Description = result.Description;
+                    Icon = result.Logo;
                 }
 
                 TopPositions.Add(new TopPositionViewModel()
@@ -147,6 +136,7 @@ namespace Invetker.Controllers
                     Description = Description,
                     Icon = Icon
                 });
+
 
                 no++;
             }

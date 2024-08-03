@@ -1,11 +1,4 @@
-﻿using Flurl;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Invetker.Models
 {
@@ -20,6 +13,8 @@ namespace Invetker.Models
         public decimal Amount { get; set; }
 
         public int ?AssetId { get; set; }
+
+        public AssetType AssetType { get; set; }
 
         [Required]
         public decimal AvgPrice { get; set; }
