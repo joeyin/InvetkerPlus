@@ -19,6 +19,7 @@
         }
     }
 
+    /*
     document.getElementById("ConfirmPassword").addEventListener("input", function () {
         const password = document.getElementById("Password").value.trim();
         const confirmPassword = this.value.trim();
@@ -31,6 +32,7 @@
             document.querySelector("#ConfirmPassword+.custom-invalid-feedback").style.display = 'block';
         }
     });
+    */
 
     document.querySelector("form[name='register']").onsubmit = function (e) {
         this.classList.add('was-validated');
