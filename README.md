@@ -15,4 +15,4 @@ INVETKER+ is a beginner-friendly stock and cryptocurrency tracking platform with
 
 ## References
 
-https://www.figma.com/design/deTQpfVBjJzHLnoxQma3MI/INVETKER?m=dev&node-id=0-1
+[https://www.figma.com/design/deTQpfVBjJzHLnoxQma3MI/INVETKER?m=dev&node-id=0-1](https://www.figma.com/proto/HcBBQNVNl3RciOY3Yshqo1/INVETKER%2B?node-id=2010-213)
