@@ -12,6 +12,12 @@ INVETKER's straightforward tools and clarity.
 
 ---
 
+## Team members
+1. Wai Cheong Vincent Chan
+2. Chi-Wei Yin
+
+---
+
 ## References
 
 https://www.figma.com/design/deTQpfVBjJzHLnoxQma3MI/INVETKER?m=dev&node-id=0-1
